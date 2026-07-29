@@ -1,4 +1,4 @@
-intent: Release: 0.1.1
-knot_id: 34ab4c68dc8c1075773b5c817dcebbe3397bd374dd97a29c11fbc61bdf2015eb
-solidified_at: 1785367882928
-thread: 
+intent: Correctly ignore nested Node-local Nool scratch state
+knot_id: a284faf65faf0bc366f837273ef9fdea9f2148cd969d44d42944518cdef36276
+solidified_at: 1785367902527
+thread: main
