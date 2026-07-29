@@ -1,4 +1,4 @@
-intent: Expose node-cron-compatible inline API and npm package entry point
-knot_id: 5fb947fe678a743bd7545e46c664118e121a6286d2a65a189c3d3b40f12d6bc9
-solidified_at: 1785369229237
+intent: Add platform package manifests for npm native bindings
+knot_id: 85766cb13a68b2ccbaee0a3bdab6ba01c42040f10082ef2540bf7d700078fc01
+solidified_at: 1785369229696
 thread: main

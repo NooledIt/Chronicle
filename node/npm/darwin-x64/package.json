@@ -1,0 +1,16 @@
+{
+  "name": "@nooledit/chronicle-darwin-x64",
+  "version": "0.2.0",
+  "cpu": [
+    "x64"
+  ],
+  "main": "chronicle_node.darwin-x64.node",
+  "files": [
+    "chronicle_node.darwin-x64.node"
+  ],
+  "description": "Node native bindings for Chronicle's deterministic cron evaluator",
+  "license": "MIT",
+  "os": [
+    "darwin"
+  ]
+}

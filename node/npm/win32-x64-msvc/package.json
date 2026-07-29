@@ -1,0 +1,16 @@
+{
+  "name": "@nooledit/chronicle-win32-x64-msvc",
+  "version": "0.2.0",
+  "cpu": [
+    "x64"
+  ],
+  "main": "chronicle_node.win32-x64-msvc.node",
+  "files": [
+    "chronicle_node.win32-x64-msvc.node"
+  ],
+  "description": "Node native bindings for Chronicle's deterministic cron evaluator",
+  "license": "MIT",
+  "os": [
+    "win32"
+  ]
+}
