@@ -1,0 +1,19 @@
+[package]
+name = "chronicle-node"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+build = "build.rs"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+chrono = "0.4"
+chrono-tz = "0.10"
+chronicle-core = { path = "../core" }
+napi = { version = "3", default-features = false, features = ["napi4", "dyn-symbols"] }
+napi-derive = "3"
+
+[build-dependencies]
+napi-build = "2"

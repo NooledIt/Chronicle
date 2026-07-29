@@ -72,6 +72,33 @@ The test suite includes:
 - generated property tests for occurrence ordering and field constraints;
 - malformed-input regression tests.
 
+## Node API (local addon)
+
+The `node/` package exposes the native core to Node.js through N-API. Build it
+locally before use:
+
+```bash
+cd node
+npm install
+npm run build
+```
+
+```js
+const { nextOccurrence } = require('./node')
+
+nextOccurrence('*/15 * * * *', '2026-01-15T09:01:00Z')
+// '2026-01-15T09:15:00Z'
+
+nextOccurrence('30 1 * * *', '2026-11-01T05:30:00Z', {
+  timezone: 'America/New_York',
+  dstPolicy: 'wallClockTwice',
+})
+// '2026-11-01T06:30:00Z'
+```
+
+`timezone` accepts an IANA zone. `dstPolicy` is `wallClockOnce` by default and
+may also be `wallClockTwice`.
+
 ## Built with Nool
 
 Chronicle was built as an evaluation of [Nool](https://nool.dev), a semantic
@@ -96,10 +123,11 @@ comparison.
 
 Chronicle is intentionally not yet a drop-in replacement for mature Node cron
 packages. It does not currently support ranges, lists, named fields, six-field
-seconds, job execution, persistence, retries, distributed coordination, or a
-Node binding. The project is building toward an independently measured
-comparison for timezone-sensitive scheduling, not claiming general scheduler
-parity today.
+seconds, job execution, persistence, retries, or distributed coordination. It
+now includes a local Node native addon, but it is not yet packaged for
+cross-platform npm distribution. The project includes a bounded differential
+harness against `node-cron`; see [the benchmark protocol](benchmarks/REPORT.md)
+for what that comparison does and does not prove.
 
 ## License
 

@@ -1,5 +1,7 @@
 # Nool local state
 target/
+node/node_modules/
+node/*.node
 .nool/*
 !.nool/
 !.nool/knot.bin
