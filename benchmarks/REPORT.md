@@ -27,11 +27,11 @@ npm run benchmark
    `America/New_York` transition. This is a capability contrast, not a claim
    that node-cron fails a contract it does not expose as a fixed-instant API.
 
-`npm run benchmark` measures the cost of Chronicle's public Node call (parse
-plus one UTC occurrence) over 100,000 iterations. It intentionally does not
-compare that number to node-cron's job lifecycle because those are different
-operations; a misleading throughput comparison would not prove product
-quality.
+`npm run benchmark` warms both implementations, then reports median and p95
+latency across equal iteration counts. Chronicle uses its public
+`nextOccurrence` API. node-cron uses the closest public evaluation path:
+`createTask`, `start`, `getNextRun`, and `stop`. The report includes that task
+lifecycle overhead rather than pretending the two APIs are identical.
 
 ## Success criteria
 

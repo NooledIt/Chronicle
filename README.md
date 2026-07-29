@@ -99,6 +99,23 @@ nextOccurrence('30 1 * * *', '2026-11-01T05:30:00Z', {
 `timezone` accepts an IANA zone. `dstPolicy` is `wallClockOnce` by default and
 may also be `wallClockTwice`.
 
+For in-process jobs, Chronicle also provides a small lifecycle wrapper:
+
+```js
+const { schedule } = require('./node/scheduler')
+
+const task = schedule('*/5 * * * *', refreshCache, {
+  timezone: 'UTC',
+  noOverlap: true,
+  maxExecutions: 12,
+  maxRandomDelay: 30_000,
+  name: 'cache-refresh',
+})
+```
+
+Tasks support `start`, `stop`, `destroy`, `execute`, `getStatus`, and
+`getNextRun`. They emit `executed`, `overlap`, `error`, and `destroyed` events.
+
 ## Built with Nool
 
 Chronicle was built as an evaluation of [Nool](https://nool.dev), a semantic

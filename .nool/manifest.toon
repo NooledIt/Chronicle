@@ -1,4 +1,4 @@
-intent: Create task: Run comparable next-run performance benchmark
-knot_id: 050606372daeb37bc912ca207cd4ae062f5a5a0573ea671ecc577bd80950f71b
-solidified_at: 1785366939453
-thread: 
+intent: Add Chronicle task lifecycle controls and a comparable public-API latency benchmark
+knot_id: c3bead76f13c4c7e9141c4edd5b4aea10b8f40b1cd09ef26edd3e6316ede4ef1
+solidified_at: 1785367043321
+thread: main
