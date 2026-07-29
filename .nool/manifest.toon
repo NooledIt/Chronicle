@@ -1,4 +1,4 @@
-intent: Verify done task 05060637
-knot_id: 0cc219089f3e15d5302f4f51de025cf80fd4996d2ea0f96c4faa124bc8418eb3
-solidified_at: 1785367043569
-thread: 
+intent: Add standard cron grammar coverage and release contract
+knot_id: d1e8c5e7f61974bccaae573cfb2e2a54b95637f97696e13781a917d16ee53d5b
+solidified_at: 1785367274772
+thread: main

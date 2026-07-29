@@ -22,21 +22,26 @@ alongside property tests and an independent JSON conformance corpus.
 
 ## Supported grammar
 
-Chronicle currently supports five cron fields:
+Chronicle supports the standard five-field form and an optional leading
+seconds field:
 
 ```text
-minute hour day-of-month month day-of-week
+[second] minute hour day-of-month month day-of-week
 ```
 
 Each field accepts:
 
 - `*` — any value
-- An integer in the field's range
-- `*/N` — a step from the field's minimum value
+- An integer in the field's range;
+- comma-separated lists (`1,5,9`), inclusive ranges (`9-17`), and steps over
+  a wildcard or range (`*/15`, `9-17/2`);
+- three-letter or full English month and weekday names (`Jan`, `September`,
+  `Mon`, `Friday`).
 
-The ranges are minute `0-59`, hour `0-23`, day-of-month `1-31`, month `1-12`,
-and day-of-week `0-6` (`0` is Sunday). All fields must match, including
-day-of-month and day-of-week.
+The ranges are second/minute `0-59`, hour `0-23`, day-of-month `1-31`, month
+`1-12`, and day-of-week `0-7` (`0` and `7` are Sunday). With five fields,
+seconds are implicitly `0`. All fields must match, including day-of-month and
+day-of-week.
 
 ## Example
 
@@ -138,13 +143,14 @@ comparison.
 
 ## Current limitations
 
-Chronicle is intentionally not yet a drop-in replacement for mature Node cron
-packages. It does not currently support ranges, lists, named fields, six-field
-seconds, job execution, persistence, retries, or distributed coordination. It
-now includes a local Node native addon, but it is not yet packaged for
-cross-platform npm distribution. The project includes a bounded differential
-harness against `node-cron`; see [the benchmark protocol](benchmarks/REPORT.md)
-for what that comparison does and does not prove.
+Chronicle is not a drop-in replacement for mature Node cron packages. It
+intentionally excludes extension syntax such as `L`, `W`, `#`, `?`, and cron
+nicknames; it is an in-process scheduler with no persistence, retries,
+distributed coordination, or background-worker process. The native addon is
+local-only, not yet packaged for cross-platform npm distribution. The bounded
+differential harness against `node-cron` is documented in [the benchmark
+protocol](benchmarks/REPORT.md), including what the comparison does and does
+not prove.
 
 ## License
 

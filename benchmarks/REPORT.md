@@ -3,9 +3,10 @@
 ## Incumbent and scope
 
 The incumbent is [`node-cron`](https://www.npmjs.com/package/node-cron). This
-comparison is intentionally restricted to the shared five-field UTC subset:
-wildcards, numeric literals, and minute steps. It does **not** claim general
-cron-language parity.
+comparison is intentionally restricted to a shared UTC subset: five-field
+expressions plus six-field seconds, wildcards, literals, lists, ranges, steps,
+and named months/weekdays. It does **not** claim general cron-language parity
+or compatibility with extension syntax.
 
 ## Reproduction
 

@@ -36,7 +36,7 @@ proptest! {
 
 #[test]
 fn malformed_expressions_return_errors_instead_of_panicking() {
-    for expression in ["", "* * * *", "* * * * * *", "61 * * * *", "*/0 * * * *", "a b c d e"] {
+    for expression in ["", "* * * *", "* * * * * * *", "61 * * * *", "*/0 * * * *", "a b c d e"] {
         assert!(Schedule::parse(expression).is_err(), "{expression}");
     }
 }
