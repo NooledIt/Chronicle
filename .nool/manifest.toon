@@ -1,4 +1,4 @@
-intent: Create task: Ship installable node-cron-compatible npm package
-knot_id: 5ba8a08b012a0bea341513d662a9625e546c2b7d76e54f0aad4a6f94c210b4af
-solidified_at: 1785368992819
-thread: 
+intent: Expose node-cron-compatible inline API and npm package entry point
+knot_id: 5fb947fe678a743bd7545e46c664118e121a6286d2a65a189c3d3b40f12d6bc9
+solidified_at: 1785369229237
+thread: main

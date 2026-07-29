@@ -1,10 +1,25 @@
 {
   "name": "@nooledit/chronicle",
-  "version": "0.1.1",
-  "private": true,
-  "description": "Node native bindings for Chronicle's deterministic cron evaluator",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "version": "0.2.0",
+  "description": "A deterministic, node-cron-compatible scheduler with explicit DST policies",
+  "main": "cron.js",
+  "types": "cron.d.ts",
+  "files": [
+    "cron.js",
+    "cron.d.ts",
+    "scheduler.js",
+    "index.js",
+    "index.d.ts",
+    "*.node",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "license": "MIT",
   "scripts": {
     "build": "napi build --platform",
@@ -15,6 +30,12 @@
   "devDependencies": {
     "@napi-rs/cli": "^3.7.1",
     "node-cron": "^4.2.1"
+  },
+  "optionalDependencies": {
+    "@nooledit/chronicle-darwin-arm64": "0.2.0",
+    "@nooledit/chronicle-darwin-x64": "0.2.0",
+    "@nooledit/chronicle-linux-x64-gnu": "0.2.0",
+    "@nooledit/chronicle-win32-x64-msvc": "0.2.0"
   },
   "napi": {
     "binaryName": "chronicle_node",
