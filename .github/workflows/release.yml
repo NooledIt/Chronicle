@@ -37,7 +37,9 @@ jobs:
           cache: npm
           cache-dependency-path: node/package-lock.json
       - name: Install Rust
-        run: rustup toolchain install stable --profile minimal
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
       - name: Build and validate
         working-directory: node
         run: |
@@ -48,12 +50,14 @@ jobs:
       - name: Stage binary
         shell: bash
         run: |
-          mkdir -p release-assets
-          cp node/chronicle_node.*.node release-assets/chronicle-${{ matrix.artifact }}.node
+          mkdir -p release-assets/${{ matrix.artifact }}
+          cp node/chronicle_node.*.node release-assets/${{ matrix.artifact }}/
+          cd release-assets/${{ matrix.artifact }}
+          shasum -a 256 chronicle_node.*.node > SHA256SUMS-${{ matrix.artifact }}
       - uses: actions/upload-artifact@v4
         with:
           name: chronicle-${{ matrix.artifact }}
-          path: release-assets/
+          path: release-assets/${{ matrix.artifact }}/
           if-no-files-found: error
 
   macos-benchmarks:
@@ -69,7 +73,9 @@ jobs:
           cache: npm
           cache-dependency-path: node/package-lock.json
       - name: Install Rust
-        run: rustup toolchain install stable --profile minimal
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
       - name: Run complete macOS evidence suite
         working-directory: node
         run: |
@@ -78,7 +84,8 @@ jobs:
           npm test
           npm run compare
           mkdir -p ../benchmarks/results
-          npm run benchmark > ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}.json
+          node ../benchmarks/benchmark.cjs > ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}.json
+          node -e "JSON.parse(require('node:fs').readFileSync('../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}.json', 'utf8'))"
       - uses: actions/upload-artifact@v4
         with:
           name: macos-benchmark
@@ -98,4 +105,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.event.release.tag_name }}
-        run: gh release upload "$TAG" release-assets/* --clobber
+        run: find release-assets -type f -print0 | xargs -0 gh release upload "$TAG" --clobber

@@ -15,7 +15,7 @@ capability; “out of scope” is deliberately not part of the current product.
 | In-process lifecycle, overlap guard, jitter, run limit | Yes | Supported |
 | `L`, `W`, `#`, `?`, and nicknames | No | Planned only after a written semantic contract |
 | Durable jobs, retries, worker processes, distributed coordination | No | Out of scope for the in-process engine |
-| Prebuilt macOS/Linux/Windows binaries | Release assets | Automated on published GitHub Releases |
+| Prebuilt macOS/Linux/Windows binaries | GitHub Release assets | Automated, checksummed integration artifacts; not yet npm-installed packages |
 
 The Nool task **Close bounded node-cron feature parity gaps** owns any future
 expansion of this matrix. A capability may move to Supported only with fixtures

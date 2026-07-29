@@ -32,7 +32,9 @@ jobs:
           cache: npm
           cache-dependency-path: node/package-lock.json
       - name: Install Rust
-        run: rustup toolchain install stable --profile minimal
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
       - name: Rust tests
         run: cargo +stable test --workspace
       - name: Node checks

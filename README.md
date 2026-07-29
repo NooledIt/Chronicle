@@ -72,9 +72,12 @@ cargo test --workspace
 
 GitHub Actions runs the Rust and Node suites on macOS (Intel and Apple
 Silicon), Linux, and Windows. Publishing a GitHub Release rebuilds each native
-addon, attaches the platform binaries to that release, and attaches a macOS
-benchmark report. See [the benchmark protocol](benchmarks/REPORT.md) for the
-scope and interpretation of those results.
+addon, attaches loader-named platform binaries and SHA-256 checksums to that
+release, and attaches a macOS benchmark report. These are integration assets:
+the package is still private and does not yet provide npm optional-dependency
+packages for transparent cross-platform installation. See [the benchmark
+protocol](benchmarks/REPORT.md) for the scope and interpretation of those
+results.
 
 The test suite includes:
 

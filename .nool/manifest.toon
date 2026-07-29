@@ -1,4 +1,4 @@
-intent: Correctly ignore nested Node-local Nool scratch state
-knot_id: a284faf65faf0bc366f837273ef9fdea9f2148cd969d44d42944518cdef36276
-solidified_at: 1785367902527
+intent: Harden cross-platform release artifacts and benchmark publication
+knot_id: 434a4f0ed9409cf968bf85bf04aa2e5a17f0695ce304557af285b83c02bed37d
+solidified_at: 1785367989264
 thread: main
