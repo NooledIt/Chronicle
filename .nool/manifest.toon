@@ -1,4 +1,4 @@
-intent: Create task: Specify deterministic cron occurrence contract
-knot_id: d38f1aa60056582b305931d4470be0f62de87a62a14781315860712760262270
-solidified_at: 1785365360386
+intent: Create task: Implement cron parser and next-occurrence evaluator
+knot_id: 90800c35c5662121c01cbee232869b273d90cd253ecda82fab60cc9cf0270b2c
+solidified_at: 1785365360560
 thread: 
