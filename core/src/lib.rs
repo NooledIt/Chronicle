@@ -5,7 +5,8 @@
 //! day-of-week use AND semantics; this is an explicit contract, not a Unix cron
 //! compatibility claim.
 
-use chrono::{DateTime, Datelike, Duration, Timelike, Utc};
+use chrono::{DateTime, Datelike, Duration, LocalResult, NaiveDateTime, TimeZone, Timelike, Utc};
+use chrono_tz::Tz;
 use std::fmt;
 
 const SEARCH_LIMIT_MINUTES: i64 = 5_260_000; // Ten Gregorian years plus margin.
@@ -84,6 +85,15 @@ pub struct Schedule {
     day_of_week: Field,
 }
 
+/// The policy used when a local wall-clock minute occurs twice at fall-back.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum DstPolicy {
+    /// Run the first occurrence of an ambiguous local minute and skip the second.
+    WallClockOnce,
+    /// Treat both occurrences of an ambiguous local minute as scheduled instants.
+    WallClockTwice,
+}
+
 impl Schedule {
     pub fn parse(source: &str) -> Result<Self, CronError> {
         let fields: Vec<_> = source.split_whitespace().collect();
@@ -113,11 +123,72 @@ impl Schedule {
         Err(CronError::NoOccurrenceWithinSearchLimit)
     }
 
+    /// Returns the first occurrence strictly after `after`, interpreted in `timezone`.
+    ///
+    /// A nonexistent spring-forward minute is skipped. At fall-back, `policy`
+    /// determines whether the repeated local minute is emitted once or twice.
+    pub fn next_after_in_timezone(
+        &self,
+        after: DateTime<Utc>,
+        timezone: Tz,
+        policy: DstPolicy,
+    ) -> Result<DateTime<Utc>, CronError> {
+        let local = after.with_timezone(&timezone).naive_local();
+        let mut candidate = truncate_to_minute(local);
+
+        for _ in 0..SEARCH_LIMIT_MINUTES {
+            if self.matches_naive(candidate) {
+                let mut resolved = resolve_local_minute(timezone, candidate, policy);
+                resolved.sort_unstable();
+                if let Some(next) = resolved.into_iter().find(|instant| *instant > after) {
+                    return Ok(next);
+                }
+            }
+            candidate += Duration::minutes(1);
+        }
+        Err(CronError::NoOccurrenceWithinSearchLimit)
+    }
+
     fn matches(&self, at: DateTime<Utc>) -> bool {
-        self.minute.matches(at.minute(), 0)
-            && self.hour.matches(at.hour(), 0)
-            && self.day_of_month.matches(at.day(), 1)
-            && self.month.matches(at.month(), 1)
-            && self.day_of_week.matches(at.weekday().num_days_from_sunday(), 0)
+        self.matches_components(
+            at.minute(),
+            at.hour(),
+            at.day(),
+            at.month(),
+            at.weekday().num_days_from_sunday(),
+        )
+    }
+
+    fn matches_naive(&self, at: NaiveDateTime) -> bool {
+        self.matches_components(
+            at.minute(),
+            at.hour(),
+            at.day(),
+            at.month(),
+            at.weekday().num_days_from_sunday(),
+        )
+    }
+
+    fn matches_components(&self, minute: u32, hour: u32, day: u32, month: u32, weekday: u32) -> bool {
+        self.minute.matches(minute, 0)
+            && self.hour.matches(hour, 0)
+            && self.day_of_month.matches(day, 1)
+            && self.month.matches(month, 1)
+            && self.day_of_week.matches(weekday, 0)
+    }
+}
+
+fn truncate_to_minute(value: NaiveDateTime) -> NaiveDateTime {
+    value - Duration::seconds(value.second() as i64) - Duration::nanoseconds(value.nanosecond() as i64)
+}
+
+fn resolve_local_minute(timezone: Tz, local: NaiveDateTime, policy: DstPolicy) -> Vec<DateTime<Utc>> {
+    match timezone.from_local_datetime(&local) {
+        LocalResult::None => Vec::new(),
+        LocalResult::Single(value) => vec![value.with_timezone(&Utc)],
+        LocalResult::Ambiguous(first, second) => match policy {
+            DstPolicy::WallClockOnce => vec![first.with_timezone(&Utc)],
+            DstPolicy::WallClockTwice => vec![first.with_timezone(&Utc), second.with_timezone(&Utc)],
+        },
     }
 }

@@ -1,4 +1,4 @@
-intent: Create task: Add explicit timezone and daylight-saving policies
-knot_id: e17644d6bf73e78fcccaade89b689d099fa98d31b09da7db0eccc448c7afb136
-solidified_at: 1785365471609
-thread: 
+intent: Deliver explicit IANA timezone evaluation and tested DST ambiguity behavior
+knot_id: a37d21b2d6426cc89da2b06fed0c9d5d044127f0b2f7b7d2d7a9ab16c76829be
+solidified_at: 1785365514959
+thread: main

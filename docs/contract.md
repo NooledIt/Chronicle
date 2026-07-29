@@ -19,6 +19,14 @@ dates simply do not occur. Inputs and outputs are UTC instants.
 
 ## Explicit non-goals for v0
 
-This release does not yet implement named fields, ranges, lists, six-field
-seconds, local-time evaluation, or daylight-saving policies. Those features
-will be added only with an independently specified fixture corpus.
+This release does not yet implement named fields, ranges, lists, or six-field
+seconds. Those features will be added only with an independently specified
+fixture corpus.
+
+## Local time and DST
+
+`next_after_in_timezone` evaluates the same grammar in an IANA timezone. A
+nonexistent local minute during spring-forward is skipped. A repeated minute
+during fall-back is controlled explicitly: `WallClockOnce` emits the earlier
+instant only, while `WallClockTwice` emits both instants. The UTC API remains
+the simpler, timezone-free reference behavior.
