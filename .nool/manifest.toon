@@ -1,4 +1,4 @@
-intent: Create task: Add property-based safety checks
-knot_id: 03e95d55c8e6ce3be6f297b3c6791de89a711b04845e3bd293c257b2374c9c4b
-solidified_at: 1785365523404
-thread: 
+intent: Deliver generated safety invariants for occurrence ordering and field constraints
+knot_id: 0cbacd2725154c132bef5ea9ab6584f0c5cf1c23fe2cb13cf9a7bdaafc6225e6
+solidified_at: 1785365563527
+thread: main
