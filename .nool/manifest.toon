@@ -1,4 +1,4 @@
-intent: Add platform package manifests for npm native bindings
-knot_id: 85766cb13a68b2ccbaee0a3bdab6ba01c42040f10082ef2540bf7d700078fc01
-solidified_at: 1785369229696
+intent: Release Chronicle 0.2.0 npm compatibility milestone across documentation and platform CI
+knot_id: 9b98074da519ffd518483ea680f17329023a7992f390ec4da9a60d73d4bc53e0
+solidified_at: 1785369234198
 thread: main

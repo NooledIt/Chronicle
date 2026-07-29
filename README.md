@@ -135,6 +135,29 @@ const task = schedule('*/5 * * * *', refreshCache, {
 Tasks support `start`, `stop`, `destroy`, `execute`, `getStatus`, and
 `getNextRun`. They emit `executed`, `overlap`, `error`, and `destroyed` events.
 
+## npm installation and node-cron migration
+
+For the supported inline-task subset, Chronicle has the same common entry
+points as node-cron:
+
+```bash
+npm install @nooledit/chronicle
+```
+
+```js
+const cron = require('@nooledit/chronicle')
+const task = cron.schedule('*/5 * * * *', refreshCache, {
+  timezone: 'UTC', noOverlap: true,
+})
+```
+
+`schedule`, `createTask`, `validate`, `validateDetailed`, `parse`, task
+registry access, and shutdown are included. Chronicle deliberately rejects
+background task paths, distributed coordination, and advanced calendar tokens
+instead of silently changing their behavior. See the [feature-parity
+matrix](docs/feature-parity.md) before migrating applications that use those
+node-cron features.
+
 ## Built with Nool
 
 Chronicle was built as an evaluation of [Nool](https://nool.dev), a semantic
