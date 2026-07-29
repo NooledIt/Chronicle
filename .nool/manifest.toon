@@ -1,4 +1,4 @@
-intent: Publish bounded Chronicle versus node-cron comparison report and charts
-knot_id: 2616d04e756a8ed78446841d8626a36a649529329fb1116edc8412d955e32454
-solidified_at: 1785368641496
-thread: main
+intent: Create task: Ship installable node-cron-compatible npm package
+knot_id: 5ba8a08b012a0bea341513d662a9625e546c2b7d76e54f0aad4a6f94c210b4af
+solidified_at: 1785368992819
+thread: 
