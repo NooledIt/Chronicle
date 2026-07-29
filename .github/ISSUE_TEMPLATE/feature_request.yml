@@ -1,0 +1,22 @@
+name: Feature request
+description: Suggest a bounded improvement to Chronicle.
+title: "feature: "
+labels: [enhancement]
+body:
+  - type: textarea
+    attributes:
+      label: Problem
+      description: What scheduling problem should Chronicle solve?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposed behavior
+      description: Include cron syntax and timezone/DST semantics where relevant.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Acceptance criteria and test idea
+    validations:
+      required: true

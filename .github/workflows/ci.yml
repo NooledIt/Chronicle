@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS Intel
+            os: macos-13
+          - name: macOS Apple Silicon
+            os: macos-14
+          - name: Linux x64
+            os: ubuntu-latest
+          - name: Windows x64
+            os: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: node/package-lock.json
+      - name: Install Rust
+        run: rustup toolchain install stable --profile minimal
+      - name: Rust tests
+        run: cargo +stable test --workspace
+      - name: Node checks
+        working-directory: node
+        run: |
+          npm ci
+          npm run build
+          npm test
+          npm run compare

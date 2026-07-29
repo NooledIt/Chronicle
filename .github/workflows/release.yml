@@ -1,0 +1,101 @@
+name: Release native artifacts
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS Intel
+            os: macos-13
+            artifact: darwin-x64
+          - name: macOS Apple Silicon
+            os: macos-14
+            artifact: darwin-arm64
+          - name: Linux x64
+            os: ubuntu-latest
+            artifact: linux-x64-gnu
+          - name: Windows x64
+            os: windows-latest
+            artifact: win32-x64-msvc
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: node/package-lock.json
+      - name: Install Rust
+        run: rustup toolchain install stable --profile minimal
+      - name: Build and validate
+        working-directory: node
+        run: |
+          npm ci
+          npx napi build --platform --release
+          npm test
+          npm run compare
+      - name: Stage binary
+        shell: bash
+        run: |
+          mkdir -p release-assets
+          cp node/chronicle_node.*.node release-assets/chronicle-${{ matrix.artifact }}.node
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chronicle-${{ matrix.artifact }}
+          path: release-assets/
+          if-no-files-found: error
+
+  macos-benchmarks:
+    name: Publish macOS benchmark evidence
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: node/package-lock.json
+      - name: Install Rust
+        run: rustup toolchain install stable --profile minimal
+      - name: Run complete macOS evidence suite
+        working-directory: node
+        run: |
+          npm ci
+          npm run build
+          npm test
+          npm run compare
+          mkdir -p ../benchmarks/results
+          npm run benchmark > ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-benchmark
+          path: benchmarks/results/
+          if-no-files-found: error
+
+  publish:
+    name: Attach release evidence
+    needs: [build, macos-benchmarks]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+      - name: Upload binaries and benchmark report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$TAG" release-assets/* --clobber

@@ -1,0 +1,22 @@
+name: Bug report
+description: Report an incorrect schedule, API, or build behavior.
+title: "bug: "
+labels: [bug]
+body:
+  - type: textarea
+    attributes:
+      label: Reproduction
+      description: Include the expression, input instant, timezone/DST policy, and minimal code.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected and actual result
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Environment
+      description: OS, architecture, Rust version, Node version, and Chronicle version.
+    validations:
+      required: true

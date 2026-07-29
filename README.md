@@ -70,6 +70,12 @@ Requires a current Rust toolchain.
 cargo test --workspace
 ```
 
+GitHub Actions runs the Rust and Node suites on macOS (Intel and Apple
+Silicon), Linux, and Windows. Publishing a GitHub Release rebuilds each native
+addon, attaches the platform binaries to that release, and attaches a macOS
+benchmark report. See [the benchmark protocol](benchmarks/REPORT.md) for the
+scope and interpretation of those results.
+
 The test suite includes:
 
 - JSON conformance fixtures for UTC schedules;
@@ -140,6 +146,13 @@ This process does not by itself prove Chronicle is better than an established
 scheduler. It gives the project a reproducible causal record from requirement
 to test to released change, which is the foundation for an independent quality
 comparison.
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening an issue or pull
+request, and follow the [Code of Conduct](CODE_OF_CONDUCT.md). Bug and feature
+forms are available in GitHub Issues; design proposals use
+[the proposal template](docs/proposals/template.md).
 
 ## Current limitations
 
