@@ -2,6 +2,7 @@
 target/
 node/node_modules/
 node/*.node
+node/.nool/
 .nool/*
 !.nool/
 !.nool/knot.bin
