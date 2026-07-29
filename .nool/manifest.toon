@@ -1,4 +1,4 @@
-intent: Ignore Node-local Nool scratch state
-knot_id: 3ac0cda1200154d4ce5d5f7465064259796cc65faa7a9270cb78cf342e79c3a8
-solidified_at: 1785367881544
-thread: main
+intent: Release: 0.1.1
+knot_id: 34ab4c68dc8c1075773b5c817dcebbe3397bd374dd97a29c11fbc61bdf2015eb
+solidified_at: 1785367882928
+thread: 
