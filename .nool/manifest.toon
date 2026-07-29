@@ -1,4 +1,4 @@
-intent: Add repository-scoped release dispatch workflow
-knot_id: f916f2e85f359407455a9ff05c4ed63b5fca41085a898b162ff7d5d2741ef426
-solidified_at: 1785368520988
+intent: Publish bounded Chronicle versus node-cron comparison report and charts
+knot_id: 2616d04e756a8ed78446841d8626a36a649529329fb1116edc8412d955e32454
+solidified_at: 1785368641496
 thread: main

@@ -155,6 +155,10 @@ scheduler. It gives the project a reproducible causal record from requirement
 to test to released change, which is the foundation for an independent quality
 comparison.
 
+See the measured, scope-bounded [Chronicle vs. node-cron evaluation
+report](docs/comparison-report.md) for compatibility, DST behavior, and
+five-run macOS benchmark evidence.
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening an issue or pull
