@@ -1,4 +1,5 @@
 # Nool local state
+target/
 .nool/*
 !.nool/
 !.nool/knot.bin
