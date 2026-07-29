@@ -1,4 +1,4 @@
-intent: Harden cross-platform release artifacts and benchmark publication
-knot_id: 434a4f0ed9409cf968bf85bf04aa2e5a17f0695ce304557af285b83c02bed37d
-solidified_at: 1785367989264
+intent: Add repository-scoped release dispatch workflow
+knot_id: f916f2e85f359407455a9ff05c4ed63b5fca41085a898b162ff7d5d2741ef426
+solidified_at: 1785368520988
 thread: main

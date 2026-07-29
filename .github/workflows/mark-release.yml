@@ -1,0 +1,42 @@
+name: Mark a release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Semver tag to publish (for example v0.1.1)
+        required: true
+        type: string
+      prerelease:
+        description: Mark this as a prerelease
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  publish-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Validate the requested tag
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          case "$TAG" in
+            v[0-9]*.[0-9]*.[0-9]*) ;;
+            *) echo "Tag must be semver-shaped, for example v0.1.1" >&2; exit 1 ;;
+          esac
+      - name: Create the GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_NOOL_PUBLIC_TOKEN || github.token }}
+          TAG: ${{ inputs.tag }}
+          PRERELEASE: ${{ inputs.prerelease }}
+        run: |
+          args=("$TAG" --target main --title "Chronicle $TAG" --generate-notes)
+          if [ "$PRERELEASE" = "true" ]; then args+=(--prerelease); fi
+          gh release create "${args[@]}"

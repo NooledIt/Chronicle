@@ -79,6 +79,11 @@ packages for transparent cross-platform installation. See [the benchmark
 protocol](benchmarks/REPORT.md) for the scope and interpretation of those
 results.
 
+Maintainers publish a release through the **Mark a release** GitHub Actions
+workflow. It uses the repository-scoped `GITHUB_NOOL_PUBLIC_TOKEN` secret to
+create the release; the `release.published` workflow then builds and attaches
+the binaries, checksums, and benchmark evidence.
+
 The test suite includes:
 
 - JSON conformance fixtures for UTC schedules;

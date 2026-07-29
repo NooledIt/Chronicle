@@ -103,6 +103,6 @@ jobs:
           merge-multiple: true
       - name: Upload binaries and benchmark report
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_NOOL_PUBLIC_TOKEN || github.token }}
           TAG: ${{ github.event.release.tag_name }}
         run: find release-assets -type f -print0 | xargs -0 gh release upload "$TAG" --clobber
