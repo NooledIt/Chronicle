@@ -18,5 +18,30 @@
     "expression": "0 0 * * 0",
     "after": "2026-01-03T23:59:00Z",
     "expected": "2026-01-04T00:00:00Z"
+  },
+  {
+    "expression": "0 0 L * ?",
+    "after": "2028-02-27T00:00:00Z",
+    "expected": "2028-02-29T00:00:00Z"
+  },
+  {
+    "expression": "0 0 1W * ?",
+    "after": "2026-07-31T00:00:00Z",
+    "expected": "2026-08-03T00:00:00Z"
+  },
+  {
+    "expression": "0 0 ? * MON#2",
+    "after": "2026-01-01T00:00:00Z",
+    "expected": "2026-01-12T00:00:00Z"
+  },
+  {
+    "expression": "0 0 ? * FRIL",
+    "after": "2026-01-01T00:00:00Z",
+    "expected": "2026-01-30T00:00:00Z"
+  },
+  {
+    "expression": "0 22-2 1 Nov-Feb ?",
+    "after": "2026-12-01T23:00:00Z",
+    "expected": "2027-01-01T00:00:00Z"
   }
 ]
