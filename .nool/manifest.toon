@@ -1,4 +1,4 @@
-intent: Use NPM_NOOL_TOKEN for npm publication
-knot_id: 1eec960119a3b71ce8d98e109bd7a8977970ee73ea80eddffaae046833a20812
-solidified_at: 1785370182623
+intent: Rename main and platform npm packages to @nool scope
+knot_id: 2ed9561163f1eba138401509d4bf9f44e49b34cd37cb038c865bb0fd7b26f924
+solidified_at: 1785370406399
 thread: main

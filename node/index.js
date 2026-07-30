@@ -75,8 +75,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-android-arm64')
-        const bindingPackageVersion = require('@nooledit/chronicle-android-arm64/package.json').version
+        const binding = require('@nool/chronicle-android-arm64')
+        const bindingPackageVersion = require('@nool/chronicle-android-arm64/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -91,8 +91,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-android-arm-eabi')
-        const bindingPackageVersion = require('@nooledit/chronicle-android-arm-eabi/package.json').version
+        const binding = require('@nool/chronicle-android-arm-eabi')
+        const bindingPackageVersion = require('@nool/chronicle-android-arm-eabi/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -112,8 +112,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-win32-x64-gnu')
-        const bindingPackageVersion = require('@nooledit/chronicle-win32-x64-gnu/package.json').version
+        const binding = require('@nool/chronicle-win32-x64-gnu')
+        const bindingPackageVersion = require('@nool/chronicle-win32-x64-gnu/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -128,8 +128,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-win32-x64-msvc')
-        const bindingPackageVersion = require('@nooledit/chronicle-win32-x64-msvc/package.json').version
+        const binding = require('@nool/chronicle-win32-x64-msvc')
+        const bindingPackageVersion = require('@nool/chronicle-win32-x64-msvc/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -145,8 +145,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-win32-ia32-msvc')
-        const bindingPackageVersion = require('@nooledit/chronicle-win32-ia32-msvc/package.json').version
+        const binding = require('@nool/chronicle-win32-ia32-msvc')
+        const bindingPackageVersion = require('@nool/chronicle-win32-ia32-msvc/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -161,8 +161,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-win32-arm64-msvc')
-        const bindingPackageVersion = require('@nooledit/chronicle-win32-arm64-msvc/package.json').version
+        const binding = require('@nool/chronicle-win32-arm64-msvc')
+        const bindingPackageVersion = require('@nool/chronicle-win32-arm64-msvc/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -180,8 +180,8 @@ function requireNative() {
       loadErrors.push(e)
     }
     try {
-      const binding = require('@nooledit/chronicle-darwin-universal')
-      const bindingPackageVersion = require('@nooledit/chronicle-darwin-universal/package.json').version
+      const binding = require('@nool/chronicle-darwin-universal')
+      const bindingPackageVersion = require('@nool/chronicle-darwin-universal/package.json').version
       if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
         throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
       }
@@ -196,8 +196,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-darwin-x64')
-        const bindingPackageVersion = require('@nooledit/chronicle-darwin-x64/package.json').version
+        const binding = require('@nool/chronicle-darwin-x64')
+        const bindingPackageVersion = require('@nool/chronicle-darwin-x64/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -212,8 +212,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-darwin-arm64')
-        const bindingPackageVersion = require('@nooledit/chronicle-darwin-arm64/package.json').version
+        const binding = require('@nool/chronicle-darwin-arm64')
+        const bindingPackageVersion = require('@nool/chronicle-darwin-arm64/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -232,8 +232,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-freebsd-x64')
-        const bindingPackageVersion = require('@nooledit/chronicle-freebsd-x64/package.json').version
+        const binding = require('@nool/chronicle-freebsd-x64')
+        const bindingPackageVersion = require('@nool/chronicle-freebsd-x64/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -248,8 +248,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-freebsd-arm64')
-        const bindingPackageVersion = require('@nooledit/chronicle-freebsd-arm64/package.json').version
+        const binding = require('@nool/chronicle-freebsd-arm64')
+        const bindingPackageVersion = require('@nool/chronicle-freebsd-arm64/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -269,8 +269,8 @@ function requireNative() {
           loadErrors.push(e)
         }
         try {
-          const binding = require('@nooledit/chronicle-linux-x64-musl')
-          const bindingPackageVersion = require('@nooledit/chronicle-linux-x64-musl/package.json').version
+          const binding = require('@nool/chronicle-linux-x64-musl')
+          const bindingPackageVersion = require('@nool/chronicle-linux-x64-musl/package.json').version
           if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -285,8 +285,8 @@ function requireNative() {
           loadErrors.push(e)
         }
         try {
-          const binding = require('@nooledit/chronicle-linux-x64-gnu')
-          const bindingPackageVersion = require('@nooledit/chronicle-linux-x64-gnu/package.json').version
+          const binding = require('@nool/chronicle-linux-x64-gnu')
+          const bindingPackageVersion = require('@nool/chronicle-linux-x64-gnu/package.json').version
           if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -303,8 +303,8 @@ function requireNative() {
           loadErrors.push(e)
         }
         try {
-          const binding = require('@nooledit/chronicle-linux-arm64-musl')
-          const bindingPackageVersion = require('@nooledit/chronicle-linux-arm64-musl/package.json').version
+          const binding = require('@nool/chronicle-linux-arm64-musl')
+          const bindingPackageVersion = require('@nool/chronicle-linux-arm64-musl/package.json').version
           if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -319,8 +319,8 @@ function requireNative() {
           loadErrors.push(e)
         }
         try {
-          const binding = require('@nooledit/chronicle-linux-arm64-gnu')
-          const bindingPackageVersion = require('@nooledit/chronicle-linux-arm64-gnu/package.json').version
+          const binding = require('@nool/chronicle-linux-arm64-gnu')
+          const bindingPackageVersion = require('@nool/chronicle-linux-arm64-gnu/package.json').version
           if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -337,8 +337,8 @@ function requireNative() {
           loadErrors.push(e)
         }
         try {
-          const binding = require('@nooledit/chronicle-linux-arm-musleabihf')
-          const bindingPackageVersion = require('@nooledit/chronicle-linux-arm-musleabihf/package.json').version
+          const binding = require('@nool/chronicle-linux-arm-musleabihf')
+          const bindingPackageVersion = require('@nool/chronicle-linux-arm-musleabihf/package.json').version
           if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -353,8 +353,8 @@ function requireNative() {
           loadErrors.push(e)
         }
         try {
-          const binding = require('@nooledit/chronicle-linux-arm-gnueabihf')
-          const bindingPackageVersion = require('@nooledit/chronicle-linux-arm-gnueabihf/package.json').version
+          const binding = require('@nool/chronicle-linux-arm-gnueabihf')
+          const bindingPackageVersion = require('@nool/chronicle-linux-arm-gnueabihf/package.json').version
           if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -371,8 +371,8 @@ function requireNative() {
           loadErrors.push(e)
         }
         try {
-          const binding = require('@nooledit/chronicle-linux-loong64-musl')
-          const bindingPackageVersion = require('@nooledit/chronicle-linux-loong64-musl/package.json').version
+          const binding = require('@nool/chronicle-linux-loong64-musl')
+          const bindingPackageVersion = require('@nool/chronicle-linux-loong64-musl/package.json').version
           if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -387,8 +387,8 @@ function requireNative() {
           loadErrors.push(e)
         }
         try {
-          const binding = require('@nooledit/chronicle-linux-loong64-gnu')
-          const bindingPackageVersion = require('@nooledit/chronicle-linux-loong64-gnu/package.json').version
+          const binding = require('@nool/chronicle-linux-loong64-gnu')
+          const bindingPackageVersion = require('@nool/chronicle-linux-loong64-gnu/package.json').version
           if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -405,8 +405,8 @@ function requireNative() {
           loadErrors.push(e)
         }
         try {
-          const binding = require('@nooledit/chronicle-linux-riscv64-musl')
-          const bindingPackageVersion = require('@nooledit/chronicle-linux-riscv64-musl/package.json').version
+          const binding = require('@nool/chronicle-linux-riscv64-musl')
+          const bindingPackageVersion = require('@nool/chronicle-linux-riscv64-musl/package.json').version
           if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -421,8 +421,8 @@ function requireNative() {
           loadErrors.push(e)
         }
         try {
-          const binding = require('@nooledit/chronicle-linux-riscv64-gnu')
-          const bindingPackageVersion = require('@nooledit/chronicle-linux-riscv64-gnu/package.json').version
+          const binding = require('@nool/chronicle-linux-riscv64-gnu')
+          const bindingPackageVersion = require('@nool/chronicle-linux-riscv64-gnu/package.json').version
           if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
             throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
@@ -438,8 +438,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-linux-ppc64-gnu')
-        const bindingPackageVersion = require('@nooledit/chronicle-linux-ppc64-gnu/package.json').version
+        const binding = require('@nool/chronicle-linux-ppc64-gnu')
+        const bindingPackageVersion = require('@nool/chronicle-linux-ppc64-gnu/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -454,8 +454,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-linux-s390x-gnu')
-        const bindingPackageVersion = require('@nooledit/chronicle-linux-s390x-gnu/package.json').version
+        const binding = require('@nool/chronicle-linux-s390x-gnu')
+        const bindingPackageVersion = require('@nool/chronicle-linux-s390x-gnu/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -474,8 +474,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-openharmony-arm64')
-        const bindingPackageVersion = require('@nooledit/chronicle-openharmony-arm64/package.json').version
+        const binding = require('@nool/chronicle-openharmony-arm64')
+        const bindingPackageVersion = require('@nool/chronicle-openharmony-arm64/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -490,8 +490,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-openharmony-x64')
-        const bindingPackageVersion = require('@nooledit/chronicle-openharmony-x64/package.json').version
+        const binding = require('@nool/chronicle-openharmony-x64')
+        const bindingPackageVersion = require('@nool/chronicle-openharmony-x64/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -506,8 +506,8 @@ function requireNative() {
         loadErrors.push(e)
       }
       try {
-        const binding = require('@nooledit/chronicle-openharmony-arm')
-        const bindingPackageVersion = require('@nooledit/chronicle-openharmony-arm/package.json').version
+        const binding = require('@nool/chronicle-openharmony-arm')
+        const bindingPackageVersion = require('@nool/chronicle-openharmony-arm/package.json').version
         if (bindingPackageVersion !== '0.2.0' && process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
           throw new Error(`Native binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
         }
@@ -643,16 +643,16 @@ if (!nativeBinding || forceWasi) {
     let candidateError = null
     let candidateFailed = false
     try {
-      candidateError = __napiWasiResolveCandidate('@nooledit/chronicle-wasm32-wasi', true, undefined)
+      candidateError = __napiWasiResolveCandidate('@nool/chronicle-wasm32-wasi', true, undefined)
       candidateFailed = candidateError !== null
       if (!candidateFailed) {
         if (process.env.NAPI_RS_ENFORCE_VERSION_CHECK && process.env.NAPI_RS_ENFORCE_VERSION_CHECK !== '0') {
-          const bindingPackageVersion = require('@nooledit/chronicle-wasm32-wasi/package.json').version
+          const bindingPackageVersion = require('@nool/chronicle-wasm32-wasi/package.json').version
           if (bindingPackageVersion !== '0.2.0') {
             throw new Error(`WASI binding package version mismatch, expected 0.2.0 but got ${bindingPackageVersion}. You can reinstall dependencies to fix this issue.`)
           }
         }
-        wasiBinding = require('@nooledit/chronicle-wasm32-wasi')
+        wasiBinding = require('@nool/chronicle-wasm32-wasi')
         nativeBinding = wasiBinding
         wasiBindingLoaded = true
       }

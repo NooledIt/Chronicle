@@ -1,5 +1,5 @@
 {
-  "name": "@nooledit/chronicle-darwin-arm64",
+  "name": "@nool/chronicle-darwin-arm64",
   "version": "0.2.0",
   "cpu": [
     "arm64"

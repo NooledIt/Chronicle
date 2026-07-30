@@ -141,11 +141,11 @@ For the supported inline-task subset, Chronicle has the same common entry
 points as node-cron:
 
 ```bash
-npm install @nooledit/chronicle
+npm install @nool/chronicle
 ```
 
 ```js
-const cron = require('@nooledit/chronicle')
+const cron = require('@nool/chronicle')
 const task = cron.schedule('*/5 * * * *', refreshCache, {
   timezone: 'UTC', noOverlap: true,
 })

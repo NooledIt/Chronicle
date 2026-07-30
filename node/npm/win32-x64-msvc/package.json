@@ -1,5 +1,5 @@
 {
-  "name": "@nooledit/chronicle-win32-x64-msvc",
+  "name": "@nool/chronicle-win32-x64-msvc",
   "version": "0.2.0",
   "cpu": [
     "x64"

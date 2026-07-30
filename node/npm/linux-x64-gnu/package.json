@@ -1,5 +1,5 @@
 {
-  "name": "@nooledit/chronicle-linux-x64-gnu",
+  "name": "@nool/chronicle-linux-x64-gnu",
   "version": "0.2.0",
   "cpu": [
     "x64"

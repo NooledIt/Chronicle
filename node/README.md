@@ -1,14 +1,14 @@
-# @nooledit/chronicle
+# @nool/chronicle
 
 Install Chronicle as a node-cron-compatible package for the supported inline
 scheduling subset:
 
 ```bash
-npm install @nooledit/chronicle
+npm install @nool/chronicle
 ```
 
 ```js
-const cron = require('@nooledit/chronicle')
+const cron = require('@nool/chronicle')
 
 const task = cron.schedule('*/5 * * * *', async () => {
   await refreshCache()

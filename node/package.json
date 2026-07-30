@@ -1,5 +1,5 @@
 {
-  "name": "@nooledit/chronicle",
+  "name": "@nool/chronicle",
   "version": "0.2.0",
   "description": "A deterministic, node-cron-compatible scheduler with explicit DST policies",
   "main": "cron.js",
@@ -32,10 +32,10 @@
     "node-cron": "^4.2.1"
   },
   "optionalDependencies": {
-    "@nooledit/chronicle-darwin-arm64": "0.2.0",
-    "@nooledit/chronicle-darwin-x64": "0.2.0",
-    "@nooledit/chronicle-linux-x64-gnu": "0.2.0",
-    "@nooledit/chronicle-win32-x64-msvc": "0.2.0"
+    "@nool/chronicle-darwin-arm64": "0.2.0",
+    "@nool/chronicle-darwin-x64": "0.2.0",
+    "@nool/chronicle-linux-x64-gnu": "0.2.0",
+    "@nool/chronicle-win32-x64-msvc": "0.2.0"
   },
   "napi": {
     "binaryName": "chronicle_node",
