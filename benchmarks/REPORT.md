@@ -17,6 +17,7 @@ npm run build
 npm test
 npm run compare
 npm run benchmark
+npm run benchmark:runtime
 ```
 
 `npm run compare` does two independently useful things:
@@ -28,11 +29,18 @@ npm run benchmark
    `America/New_York` transition. This is a capability contrast, not a claim
    that node-cron fails a contract it does not expose as a fixed-instant API.
 
-`npm run benchmark` warms both implementations, then reports median and p95
-latency across equal iteration counts. Chronicle uses its public
-`nextOccurrence` API. node-cron uses the closest public evaluation path:
-`createTask`, `start`, `getNextRun`, and `stop`. The report includes that task
-lifecycle overhead rather than pretending the two APIs are identical.
+`npm run benchmark` runs seven alternating-order, fresh-process trials over
+validation, detailed validation, parsing, fixed matching, warm next-run,
+batched next-run, full lifecycle, inline execution, 13 expression classes, six
+invalid classes, and five time zones. Fast cases use adaptive batches; sparse
+cases use a time budget and may produce one inner sample per process. The
+cross-process report includes p50, p95, MAD, raw trial summaries, and a
+deterministic bootstrap 95% confidence interval for medians and paired ratios.
+
+`npm run benchmark:runtime` runs isolated real-timer, fan-out, no-overlap,
+background-worker, manual-execution, and coordinator observations. Timer and
+no-overlap results are behavioral: callback counts or skipped executions are
+never presented as raw speed.
 
 ## Success criteria
 
@@ -45,16 +53,18 @@ lifecycle overhead rather than pretending the two APIs are identical.
 
 ## What this proves—and what it does not
 
-Passing the harness proves that Chronicle is compatible on the selected shared
-subset and that it offers an explicit, tested DST policy dimension. It does not
-prove global superiority over node-cron or any other scheduler. Establishing a
-broader claim requires a larger independently maintained corpus, cross-version
-and cross-platform runs, and real workload outcomes.
+Passing the correctness harness proves compatibility on the selected shared
+subset and an explicit, tested DST policy dimension. The extensive performance
+suite disproves global superiority for Chronicle 0.3.0: dense expressions and
+inline execution win, while most sparse calendar searches lose because the
+evaluator advances by seconds or minutes instead of jumping calendar fields.
+Results remain machine-, version-, and workload-specific.
 
 ## Reporting results
 
-Record the exact command output, Node version, platform, and CPU when sharing
-results. The repository intentionally does not commit a single microbenchmark
-number: local timing varies with machine and load. A valid run must show all
-shared-corpus checks matching and must preserve the two distinct fixed DST
-policy outputs.
+The checked-in macOS result records raw per-process summaries, Node/package/Git
+versions, platform, architecture, CPU, timings, and caveats. Generated SVGs use
+a logarithmic absolute scale and a ratio scale where `node-cron / Chronicle >
+1` favors Chronicle. Never compare absolute numbers across unlike machines or
+runner classes. A valid publication must first pass tests and the differential
+corpus, and must retain losses and low-sample sparse cases.

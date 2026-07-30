@@ -25,7 +25,10 @@
     "build": "napi build --platform",
     "test": "node --test test/*.cjs",
     "compare": "node ../benchmarks/differential.cjs",
-    "benchmark": "node ../benchmarks/benchmark.cjs"
+    "benchmark": "node ../benchmarks/extensive.cjs",
+    "benchmark:single": "node ../benchmarks/benchmark.cjs",
+    "benchmark:runtime": "node ../benchmarks/runtime.cjs",
+    "benchmark:render": "node ../benchmarks/render-report.cjs"
   },
   "devDependencies": {
     "@napi-rs/cli": "^3.7.1",

@@ -28,43 +28,43 @@ alongside property tests and an independent JSON conformance corpus.
 
 ## Performance compared with node-cron
 
-On an Apple M2 Pro, Chronicle's public `nextOccurrence` operation measured
-**12.91x lower median latency** and **15.63x lower p95 latency** than the
-closest public node-cron next-run path. Lower values are better.
+The extensive benchmark gives a mixed result and rejects a blanket
+"13-16x faster" claim. Across **132 comparable public API/workload pairs**,
+Chronicle won 37 and node-cron won 95. Lower latency is better.
 
-```mermaid
-xychart-beta
-    title "Public next-run API latency (lower is better)"
-    x-axis ["Chronicle median", "Chronicle p95", "node-cron median", "node-cron p95"]
-    y-axis "Latency (microseconds)" 0 --> 160
-    bar [8.542, 9.333, 110.292, 145.833]
-```
+![Warm next-run latency ratios; values to the right of 1x favor Chronicle](docs/benchmark-results/latency-ratio.svg)
 
-| Implementation and measured operation | Median latency | p95 latency | Relative latency (median / p95) |
-| --- | ---: | ---: | ---: |
-| Chronicle `nextOccurrence` | **8.542 us** | **9.333 us** | **1.00x / 1.00x** |
-| node-cron `createTask` -> `start` -> `getNextRun` -> `stop` | 110.292 us | 145.833 us | 12.91x / 15.63x |
+| Warm `getNextRun()` workload | Chronicle p50 | node-cron p50 | Result |
+| --- | ---: | ---: | --- |
+| Every second, `* * * * * *` | **6.438 us** | 97.396 us | Chronicle 14.85x faster |
+| Every 15 minutes, `*/15 * * * *` | **11.286 us** | 22.896 us | Chronicle 2.05x faster |
+| Daily at 09:00 | 115.083 us | **23.336 us** | node-cron 4.93x faster |
+| Nearest weekday, `15W` | 4,723.125 us | **28.156 us** | node-cron 167.75x faster |
+| Yearly | 49,043.750 us | **40.229 us** | node-cron 1,219x faster |
+| Leap day | 183,491.458 us | **89.344 us** | node-cron 2,054x faster |
 
-### Benchmark labels and method
+Chronicle won all 13 inline manual-execution workloads, with a 7.76x median
+suite ratio. In the real-timer observation, both implementations delivered
+every expected callback through 100-task fan-out; Chronicle's median phase
+after the second boundary was 5 ms versus node-cron's 14 ms at 100 tasks.
+Those timer values cover only two scheduled slots and are behavioral evidence,
+not a stable latency estimate.
 
-- **Workload:** compute the next occurrence of `*/15 * * * *`.
-- **Sample size:** seven independent processes with 2,000 measured operations
-  per process; the table reports the median of each run's median and p95.
-- **Environment:** Apple M2 Pro, macOS 26.5.2 arm64, Node.js 26.0.0, and
-  node-cron 4.6.0.
-- **Observed ranges:** Chronicle run medians were 8.541-8.583 us; node-cron run
-  medians were 108.250-112.166 us.
-- **Reproduction:** from `node/`, run `npm install`, `npm run build`, and then
-  `npm run benchmark`.
+The main bottleneck is understood: Chronicle currently scans candidates one
+second or minute at a time. Dense schedules benefit from the native Rust path,
+while sparse calendar expressions pay for that linear search. The
+[complete comparison report](docs/comparison-report.md), [all-workload
+heatmap](docs/benchmark-results/ratio-heatmap.svg), [raw seven-trial CPU/API
+data](benchmarks/results/macos-arm64-v0.3.0-extensive.json), and [runtime
+observations](benchmarks/results/macos-arm64-v0.3.0-runtime.json) preserve both
+wins and regressions.
 
-This is a comparison of the closest **public APIs**, not a parser-only
-microbenchmark. Chronicle evaluates a supplied instant directly, while
-node-cron exposes next-run evaluation through a started task, so the node-cron
-measurement necessarily includes public task-lifecycle overhead. The result
-supports the scoped latency claim above; it does not imply that every scheduler
-workload is 12-16x faster. See the [benchmark protocol](benchmarks/REPORT.md)
-and [full comparison report](docs/comparison-report.md) for the compatibility,
-correctness, and interpretation boundaries.
+The measurements used seven fresh-process trials with alternating library
+order on an Apple M2 Pro, macOS 26.5.2 arm64, Node.js 26.0.0, Chronicle 0.3.0,
+and node-cron 4.6.0. All shared task cases explicitly use UTC. Reproduce from
+`node/` with `npm ci`, `npm run build`, `npm test`, `npm run compare`, and
+`npm run benchmark -- --runs 7`. See the [benchmark protocol](benchmarks/REPORT.md)
+for confidence intervals, API differences, and interpretation boundaries.
 
 ## Supported grammar
 

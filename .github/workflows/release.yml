@@ -91,8 +91,15 @@ jobs:
           npm test
           npm run compare
           mkdir -p ../benchmarks/results
-          node ../benchmarks/benchmark.cjs > ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}.json
-          node -e "JSON.parse(require('node:fs').readFileSync('../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}.json', 'utf8'))"
+          node ../benchmarks/extensive.cjs --runs 7 --output ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-extensive.json
+          node ../benchmarks/runtime.cjs --output ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-runtime.json
+          node ../benchmarks/render-report.cjs \
+            --input ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-extensive.json \
+            --runtime ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-runtime.json \
+            --output-dir ../benchmarks/results/rendered
+          node -e "for (const file of process.argv.slice(1)) JSON.parse(require('node:fs').readFileSync(file, 'utf8'))" \
+            ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-extensive.json \
+            ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-runtime.json
       - uses: actions/upload-artifact@v4
         with:
           name: macos-benchmark

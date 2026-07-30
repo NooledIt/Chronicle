@@ -1,0 +1,556 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-30T00:52:14.372Z",
+  "mode": "default",
+  "metadata": {
+    "node": "v26.0.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "osRelease": "25.5.0",
+    "cpu": "Apple M2 Pro",
+    "logicalCpuCount": 12,
+    "chronicleVersion": "0.3.0",
+    "nodeCronVersion": "4.6.0"
+  },
+  "comparability": [
+    "Every library/scenario pair runs in a fresh Node process; cases run sequentially to avoid direct CPU contention.",
+    "Second-boundary latency is wall-clock phase after the UTC second boundary, because Chronicle does not expose the logical scheduled slot in callback context.",
+    "Inline execute measures public manual execution overhead and is separate from real timer scheduling.",
+    "Background start models differ: node-cron starts its worker during start(), while Chronicle starts its worker on first execute; both component and combined cold costs are reported.",
+    "noOverlap is a behavioral workload: callback count and overlap events must not be interpreted as raw speed.",
+    "Coordinator allow/deny uses scheduled execution because node-cron does not coordinate manual execute(). It measures in-process coordinator overhead, not cross-host lease latency or contention correctness.",
+    "Wall-clock scheduling results are sensitive to system load and power management; publish repeated runs and raw JSON rather than a single run alone."
+  ],
+  "results": [
+    {
+      "library": "chronicle",
+      "scenario": "boundary",
+      "config": {
+        "workload": "single-task",
+        "taskCount": 1,
+        "slots": 2
+      },
+      "metrics": {
+        "taskCount": 1,
+        "slots": 2,
+        "expectedCallbacks": 2,
+        "observedCallbacks": 2,
+        "deliveryRatio": 1,
+        "boundaryPhaseMilliseconds": {
+          "count": 2,
+          "min": 1,
+          "median": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2
+        },
+        "callbacksPerSecond": 1,
+        "elapsedMs": 2635.115,
+        "cpuMilliseconds": 8.142,
+        "rssBytes": 55296000
+      },
+      "workerElapsedMs": 2636.254
+    },
+    {
+      "library": "node-cron",
+      "scenario": "boundary",
+      "config": {
+        "workload": "single-task",
+        "taskCount": 1,
+        "slots": 2
+      },
+      "metrics": {
+        "taskCount": 1,
+        "slots": 2,
+        "expectedCallbacks": 2,
+        "observedCallbacks": 2,
+        "deliveryRatio": 1,
+        "boundaryPhaseMilliseconds": {
+          "count": 2,
+          "min": 3,
+          "median": 3,
+          "p95": 3,
+          "p99": 3,
+          "max": 4
+        },
+        "callbacksPerSecond": 1,
+        "elapsedMs": 1854.304,
+        "cpuMilliseconds": 35.576,
+        "rssBytes": 61767680
+      },
+      "workerElapsedMs": 1854.826
+    },
+    {
+      "library": "node-cron",
+      "scenario": "boundary",
+      "config": {
+        "workload": "fanout",
+        "taskCount": 1,
+        "slots": 2
+      },
+      "metrics": {
+        "taskCount": 1,
+        "slots": 2,
+        "expectedCallbacks": 2,
+        "observedCallbacks": 2,
+        "deliveryRatio": 1,
+        "boundaryPhaseMilliseconds": {
+          "count": 2,
+          "min": 2,
+          "median": 2,
+          "p95": 2,
+          "p99": 2,
+          "max": 5
+        },
+        "callbacksPerSecond": 1,
+        "elapsedMs": 1842.657,
+        "cpuMilliseconds": 37.715,
+        "rssBytes": 61898752
+      },
+      "workerElapsedMs": 1843.113
+    },
+    {
+      "library": "chronicle",
+      "scenario": "boundary",
+      "config": {
+        "workload": "fanout",
+        "taskCount": 1,
+        "slots": 2
+      },
+      "metrics": {
+        "taskCount": 1,
+        "slots": 2,
+        "expectedCallbacks": 2,
+        "observedCallbacks": 2,
+        "deliveryRatio": 1,
+        "boundaryPhaseMilliseconds": {
+          "count": 2,
+          "min": 1,
+          "median": 1,
+          "p95": 1,
+          "p99": 1,
+          "max": 2
+        },
+        "callbacksPerSecond": 1,
+        "elapsedMs": 1847.332,
+        "cpuMilliseconds": 8.533,
+        "rssBytes": 55345152
+      },
+      "workerElapsedMs": 1848.719
+    },
+    {
+      "library": "chronicle",
+      "scenario": "boundary",
+      "config": {
+        "workload": "fanout",
+        "taskCount": 10,
+        "slots": 2
+      },
+      "metrics": {
+        "taskCount": 10,
+        "slots": 2,
+        "expectedCallbacks": 20,
+        "observedCallbacks": 20,
+        "deliveryRatio": 1,
+        "boundaryPhaseMilliseconds": {
+          "count": 20,
+          "min": 1,
+          "median": 1,
+          "p95": 2,
+          "p99": 2,
+          "max": 2
+        },
+        "callbacksPerSecond": 10,
+        "elapsedMs": 1846.993,
+        "cpuMilliseconds": 12.461,
+        "rssBytes": 55345152
+      },
+      "workerElapsedMs": 1847.906
+    },
+    {
+      "library": "node-cron",
+      "scenario": "boundary",
+      "config": {
+        "workload": "fanout",
+        "taskCount": 10,
+        "slots": 2
+      },
+      "metrics": {
+        "taskCount": 10,
+        "slots": 2,
+        "expectedCallbacks": 20,
+        "observedCallbacks": 20,
+        "deliveryRatio": 1,
+        "boundaryPhaseMilliseconds": {
+          "count": 20,
+          "min": 2,
+          "median": 5,
+          "p95": 8,
+          "p99": 8,
+          "max": 8
+        },
+        "callbacksPerSecond": 10,
+        "elapsedMs": 1837.877,
+        "cpuMilliseconds": 81.682,
+        "rssBytes": 68665344
+      },
+      "workerElapsedMs": 1839.149
+    },
+    {
+      "library": "node-cron",
+      "scenario": "boundary",
+      "config": {
+        "workload": "fanout",
+        "taskCount": 100,
+        "slots": 2
+      },
+      "metrics": {
+        "taskCount": 100,
+        "slots": 2,
+        "expectedCallbacks": 200,
+        "observedCallbacks": 200,
+        "deliveryRatio": 1,
+        "boundaryPhaseMilliseconds": {
+          "count": 200,
+          "min": 1,
+          "median": 14,
+          "p95": 23,
+          "p99": 25,
+          "max": 25
+        },
+        "callbacksPerSecond": 100,
+        "elapsedMs": 1852.1,
+        "cpuMilliseconds": 135.067,
+        "rssBytes": 74153984
+      },
+      "workerElapsedMs": 1852.627
+    },
+    {
+      "library": "chronicle",
+      "scenario": "boundary",
+      "config": {
+        "workload": "fanout",
+        "taskCount": 100,
+        "slots": 2
+      },
+      "metrics": {
+        "taskCount": 100,
+        "slots": 2,
+        "expectedCallbacks": 200,
+        "observedCallbacks": 200,
+        "deliveryRatio": 1,
+        "boundaryPhaseMilliseconds": {
+          "count": 200,
+          "min": 1,
+          "median": 5,
+          "p95": 10,
+          "p99": 10,
+          "max": 10
+        },
+        "callbacksPerSecond": 100,
+        "elapsedMs": 1833.683,
+        "cpuMilliseconds": 27.085,
+        "rssBytes": 57049088
+      },
+      "workerElapsedMs": 1834.099
+    },
+    {
+      "library": "chronicle",
+      "scenario": "inline-execute",
+      "config": {
+        "iterations": 5000
+      },
+      "metrics": {
+        "iterations": 5000,
+        "elapsedMs": 16.826,
+        "operationsPerSecond": 297154.002,
+        "operationMicroseconds": {
+          "count": 5000,
+          "min": 2.667,
+          "median": 2.833,
+          "p95": 3.666,
+          "p99": 8.375,
+          "max": 384.791
+        }
+      },
+      "workerElapsedMs": 19.812
+    },
+    {
+      "library": "node-cron",
+      "scenario": "inline-execute",
+      "config": {
+        "iterations": 5000
+      },
+      "metrics": {
+        "iterations": 5000,
+        "elapsedMs": 132.279,
+        "operationsPerSecond": 37798.93,
+        "operationMicroseconds": {
+          "count": 5000,
+          "min": 22.791,
+          "median": 23.542,
+          "p95": 31.834,
+          "p99": 65.333,
+          "max": 617.875
+        }
+      },
+      "workerElapsedMs": 154.152
+    },
+    {
+      "library": "node-cron",
+      "scenario": "no-overlap",
+      "config": {
+        "slots": 5,
+        "callbackMs": 1500
+      },
+      "metrics": {
+        "slots": 5,
+        "callbackMilliseconds": 1500,
+        "starts": 3,
+        "finishes": 3,
+        "overlapEvents": 2,
+        "maximumConcurrency": 1,
+        "startOffsetsMilliseconds": [
+          4,
+          2001,
+          4003
+        ]
+      },
+      "workerElapsedMs": 7000.678
+    },
+    {
+      "library": "chronicle",
+      "scenario": "no-overlap",
+      "config": {
+        "slots": 5,
+        "callbackMs": 1500
+      },
+      "metrics": {
+        "slots": 5,
+        "callbackMilliseconds": 1500,
+        "starts": 3,
+        "finishes": 3,
+        "overlapEvents": 0,
+        "maximumConcurrency": 1,
+        "startOffsetsMilliseconds": [
+          3,
+          2003,
+          4001
+        ]
+      },
+      "workerElapsedMs": 6816.917
+    },
+    {
+      "library": "chronicle",
+      "scenario": "background",
+      "config": {
+        "coldIterations": 5,
+        "warmIterations": 500
+      },
+      "metrics": {
+        "coldIterations": 5,
+        "coldCreateMicroseconds": {
+          "count": 5,
+          "min": 76,
+          "median": 92.667,
+          "p95": 99.666,
+          "p99": 99.666,
+          "max": 1473.959
+        },
+        "coldStartMicroseconds": {
+          "count": 5,
+          "min": 30.291,
+          "median": 34.125,
+          "p95": 36.709,
+          "p99": 36.709,
+          "max": 350
+        },
+        "coldFirstExecuteMicroseconds": {
+          "count": 5,
+          "min": 87119.25,
+          "median": 90371.291,
+          "p95": 94594.625,
+          "p99": 94594.625,
+          "max": 94771.75
+        },
+        "coldTotalMicroseconds": {
+          "count": 5,
+          "min": 87232.125,
+          "median": 90496.583,
+          "p95": 94728.75,
+          "p99": 94728.75,
+          "max": 96595.959
+        },
+        "coldExecutionsIsolated": true,
+        "warmIterations": 500,
+        "warmOperationsPerSecond": 17900.402,
+        "warmRoundTripMicroseconds": {
+          "count": 500,
+          "min": 31.084,
+          "median": 51.042,
+          "p95": 88.708,
+          "p99": 137,
+          "max": 416.334
+        },
+        "stableChildPid": 24709
+      },
+      "workerElapsedMs": 572.217
+    },
+    {
+      "library": "node-cron",
+      "scenario": "background",
+      "config": {
+        "coldIterations": 5,
+        "warmIterations": 500
+      },
+      "metrics": {
+        "coldIterations": 5,
+        "coldCreateMicroseconds": {
+          "count": 5,
+          "min": 269,
+          "median": 313.958,
+          "p95": 370.667,
+          "p99": 370.667,
+          "max": 2144.5
+        },
+        "coldStartMicroseconds": {
+          "count": 5,
+          "min": 102342.708,
+          "median": 104681.667,
+          "p95": 122566.708,
+          "p99": 122566.708,
+          "max": 132375.333
+        },
+        "coldFirstExecuteMicroseconds": {
+          "count": 5,
+          "min": 552.333,
+          "median": 685.417,
+          "p95": 749.167,
+          "p99": 749.167,
+          "max": 1003.042
+        },
+        "coldTotalMicroseconds": {
+          "count": 5,
+          "min": 103399.042,
+          "median": 105633.666,
+          "p95": 125714.458,
+          "p99": 125714.458,
+          "max": 133393.75
+        },
+        "coldExecutionsIsolated": true,
+        "warmIterations": 500,
+        "warmOperationsPerSecond": 6751.104,
+        "warmRoundTripMicroseconds": {
+          "count": 500,
+          "min": 72.75,
+          "median": 118.833,
+          "p95": 296.375,
+          "p99": 495.417,
+          "max": 898.833
+        },
+        "stableChildPid": 24719
+      },
+      "workerElapsedMs": 754.455
+    },
+    {
+      "library": "node-cron",
+      "scenario": "coordinator",
+      "config": {
+        "allow": true,
+        "slots": 2
+      },
+      "metrics": {
+        "policy": "allow",
+        "slots": 2,
+        "decisions": 2,
+        "completions": 2,
+        "skipped": 0,
+        "callbacks": 2,
+        "boundaryPhaseMilliseconds": {
+          "count": 2,
+          "min": 4,
+          "median": 4,
+          "p95": 4,
+          "p99": 4,
+          "max": 5
+        }
+      },
+      "workerElapsedMs": 2623.358
+    },
+    {
+      "library": "chronicle",
+      "scenario": "coordinator",
+      "config": {
+        "allow": true,
+        "slots": 2
+      },
+      "metrics": {
+        "policy": "allow",
+        "slots": 2,
+        "decisions": 2,
+        "completions": 2,
+        "skipped": 0,
+        "callbacks": 2,
+        "boundaryPhaseMilliseconds": {
+          "count": 2,
+          "min": 0,
+          "median": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 2
+        }
+      },
+      "workerElapsedMs": 1851.669
+    },
+    {
+      "library": "chronicle",
+      "scenario": "coordinator",
+      "config": {
+        "allow": false,
+        "slots": 2
+      },
+      "metrics": {
+        "policy": "deny",
+        "slots": 2,
+        "decisions": 2,
+        "completions": 0,
+        "skipped": 2,
+        "callbacks": 0,
+        "boundaryPhaseMilliseconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        }
+      },
+      "workerElapsedMs": 1843.201
+    },
+    {
+      "library": "node-cron",
+      "scenario": "coordinator",
+      "config": {
+        "allow": false,
+        "slots": 2
+      },
+      "metrics": {
+        "policy": "deny",
+        "slots": 2,
+        "decisions": 2,
+        "completions": 0,
+        "skipped": 2,
+        "callbacks": 0,
+        "boundaryPhaseMilliseconds": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        }
+      },
+      "workerElapsedMs": 1849.086
+    }
+  ]
+}
