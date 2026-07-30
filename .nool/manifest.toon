@@ -1,4 +1,4 @@
-intent: Release Chronicle 0.2.0 npm compatibility milestone across documentation and platform CI
-knot_id: 9b98074da519ffd518483ea680f17329023a7992f390ec4da9a60d73d4bc53e0
-solidified_at: 1785369234198
+intent: Use NPM_NOOL_TOKEN for npm publication
+knot_id: 1eec960119a3b71ce8d98e109bd7a8977970ee73ea80eddffaae046833a20812
+solidified_at: 1785370182623
 thread: main

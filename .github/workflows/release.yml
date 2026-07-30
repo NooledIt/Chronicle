@@ -56,10 +56,10 @@ jobs:
           cd release-assets/${{ matrix.artifact }}
           shasum -a 256 chronicle_node.*.node > SHA256SUMS-${{ matrix.artifact }}
       - name: Publish the optional platform package
-        if: ${{ secrets.NPM_TOKEN != '' }}
+        if: ${{ secrets.NPM_NOOL_TOKEN != '' }}
         working-directory: node/npm/${{ matrix.artifact }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_NOOL_TOKEN }}
         run: npm publish --access public
       - uses: actions/upload-artifact@v4
         with:
@@ -117,8 +117,8 @@ jobs:
           TAG: ${{ github.event.release.tag_name }}
         run: find release-assets -type f -print0 | xargs -0 gh release upload "$TAG" --clobber
       - name: Publish the main npm package
-        if: ${{ secrets.NPM_TOKEN != '' }}
+        if: ${{ secrets.NPM_NOOL_TOKEN != '' }}
         working-directory: node
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_NOOL_TOKEN }}
         run: npm publish --access public
