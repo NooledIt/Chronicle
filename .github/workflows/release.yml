@@ -1,8 +1,9 @@
 name: Release native artifacts
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*.*.*"
 
 permissions:
   contents: write
@@ -14,14 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - name: Require matching package versions
         shell: bash
         env:
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ github.ref_name }}
         run: |
           expected="${TAG#v}"
           actual=$(node -p "require('./node/package.json').version")
@@ -73,7 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -130,7 +131,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -148,15 +149,15 @@ jobs:
           npm test
           npm run compare
           mkdir -p ../benchmarks/results
-          CHRONICLE_BENCHMARK_BUILD_PROFILE=release node ../benchmarks/extensive.cjs --runs 7 --output ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-extensive.json
-          CHRONICLE_BENCHMARK_BUILD_PROFILE=release node ../benchmarks/runtime.cjs --output ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-runtime.json
+          CHRONICLE_BENCHMARK_BUILD_PROFILE=release node ../benchmarks/extensive.cjs --runs 7 --output ../benchmarks/results/macos-arm64-${{ github.ref_name }}-extensive.json
+          CHRONICLE_BENCHMARK_BUILD_PROFILE=release node ../benchmarks/runtime.cjs --output ../benchmarks/results/macos-arm64-${{ github.ref_name }}-runtime.json
           node ../benchmarks/render-report.cjs \
-            --input ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-extensive.json \
-            --runtime ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-runtime.json \
+            --input ../benchmarks/results/macos-arm64-${{ github.ref_name }}-extensive.json \
+            --runtime ../benchmarks/results/macos-arm64-${{ github.ref_name }}-runtime.json \
             --output-dir ../benchmarks/results/rendered
           node -e "for (const file of process.argv.slice(1)) JSON.parse(require('node:fs').readFileSync(file, 'utf8'))" \
-            ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-extensive.json \
-            ../benchmarks/results/macos-arm64-${{ github.event.release.tag_name }}-runtime.json
+            ../benchmarks/results/macos-arm64-${{ github.ref_name }}-extensive.json \
+            ../benchmarks/results/macos-arm64-${{ github.ref_name }}-runtime.json
       - uses: actions/upload-artifact@v4
         with:
           name: macos-benchmark
@@ -170,7 +171,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -179,10 +180,20 @@ jobs:
         with:
           path: release-assets
           merge-multiple: true
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_NOOL_PUBLIC_TOKEN || github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "GitHub release $TAG already exists"
+          else
+            gh release create "$TAG" --target "$GITHUB_SHA" --title "Chronicle $TAG" --generate-notes
+          fi
       - name: Upload binaries and benchmark report
         env:
           GH_TOKEN: ${{ secrets.GITHUB_NOOL_PUBLIC_TOKEN || github.token }}
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ github.ref_name }}
         run: find release-assets -type f -print0 | xargs -0 gh release upload "$TAG" --clobber
       - name: Publish the main npm package
         shell: bash

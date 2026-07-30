@@ -1,4 +1,4 @@
-intent: Repair and harden Chronicle npm publication, update supported runner labels, align every package and native loader at 0.4.1, and include complete npm metadata and licensing
-knot_id: 437162a15fb5e3a23cdc5b6cf20f137801fdde331ef219a3805ba11ff5175f55
-solidified_at: 1785375389918
+intent: Trigger release publication from version tags and create the GitHub Release after successful cross-platform builds
+knot_id: ca2e470d16d6a930aec69afb24c84eb1f15cce8b85eb37a906537ae9bd32b8ac
+solidified_at: 1785375647353
 thread: main
