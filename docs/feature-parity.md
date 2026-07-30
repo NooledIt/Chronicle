@@ -4,7 +4,7 @@ This matrix prevents an ambiguous claim of “feature parity” with node-cron.
 “Supported” means tested in Chronicle; “planned” is a tracked, unimplemented
 capability; “out of scope” is deliberately not part of the current product.
 
-| Capability | Chronicle v0.3 | Status |
+| Capability | Chronicle v0.4.1 | Status |
 | --- | --- | --- |
 | Five-field schedules | Yes | Supported |
 | Six-field seconds | Yes | Supported |

@@ -8,15 +8,58 @@ permissions:
   contents: write
 
 jobs:
+  validate-release:
+    name: Validate release version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Require matching package versions
+        shell: bash
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          expected="${TAG#v}"
+          actual=$(node -p "require('./node/package.json').version")
+          test "$actual" = "$expected" || {
+            echo "Release $TAG does not match @nool/chronicle@$actual" >&2
+            exit 1
+          }
+          for manifest in node/npm/*/package.json; do
+            platform=$(node -p "require('./$manifest').version")
+            test "$platform" = "$expected" || {
+              echo "$manifest is $platform, expected $expected" >&2
+              exit 1
+            }
+          done
+          node - "$expected" <<'NODE'
+          const expected = process.argv[2]
+          const main = require('./node/package.json')
+          const lock = require('./node/package-lock.json')
+          if (lock.version !== expected || lock.packages[''].version !== expected) {
+            throw new Error(`package-lock.json does not consistently use ${expected}`)
+          }
+          for (const [name, version] of Object.entries(main.optionalDependencies)) {
+            if (version !== expected) {
+              throw new Error(`${name} dependency is ${version}, expected ${expected}`)
+            }
+          }
+          NODE
+
   build:
     name: Build ${{ matrix.name }}
+    needs: validate-release
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - name: macOS Intel
-            os: macos-13
+            os: macos-15-intel
             artifact: darwin-x64
           - name: macOS Apple Silicon
             os: macos-14
@@ -34,6 +77,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          registry-url: https://registry.npmjs.org
           cache: npm
           cache-dependency-path: node/package-lock.json
       - name: Install Rust
@@ -56,11 +100,23 @@ jobs:
           cd release-assets/${{ matrix.artifact }}
           shasum -a 256 chronicle_node.*.node > SHA256SUMS-${{ matrix.artifact }}
       - name: Publish the optional platform package
-        if: ${{ secrets.NPM_NOOL_TOKEN != '' }}
+        shell: bash
         working-directory: node/npm/${{ matrix.artifact }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_NOOL_TOKEN }}
-        run: npm publish --access public
+        run: |
+          test -n "$NODE_AUTH_TOKEN" || {
+            echo "NPM_NOOL_TOKEN is required to publish release packages" >&2
+            exit 1
+          }
+          cp ../../../LICENSE LICENSE
+          package=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          if npm view "$package@$version" version >/dev/null 2>&1; then
+            echo "$package@$version is already published"
+          else
+            npm publish --access public
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: chronicle-${{ matrix.artifact }}
@@ -69,6 +125,7 @@ jobs:
 
   macos-benchmarks:
     name: Publish macOS benchmark evidence
+    needs: validate-release
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
@@ -114,6 +171,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.release.tag_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
       - uses: actions/download-artifact@v4
         with:
           path: release-assets
@@ -124,8 +185,20 @@ jobs:
           TAG: ${{ github.event.release.tag_name }}
         run: find release-assets -type f -print0 | xargs -0 gh release upload "$TAG" --clobber
       - name: Publish the main npm package
-        if: ${{ secrets.NPM_NOOL_TOKEN != '' }}
+        shell: bash
         working-directory: node
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_NOOL_TOKEN }}
-        run: npm publish --access public
+        run: |
+          test -n "$NODE_AUTH_TOKEN" || {
+            echo "NPM_NOOL_TOKEN is required to publish release packages" >&2
+            exit 1
+          }
+          cp ../LICENSE LICENSE
+          package=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          if npm view "$package@$version" version >/dev/null 2>&1; then
+            echo "$package@$version is already published"
+          else
+            npm publish --access public
+          fi

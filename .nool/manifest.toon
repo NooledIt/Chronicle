@@ -1,4 +1,4 @@
-intent: Create task: Publish Chronicle 0.4.1 to npm
-knot_id: 494746dca403cb4862cd14f08b2ec7835e9b2b166f958a2ff80c4344e3fe0cef
-solidified_at: 1785375171138
-thread: 
+intent: Repair and harden Chronicle npm publication, update supported runner labels, align every package and native loader at 0.4.1, and include complete npm metadata and licensing
+knot_id: 437162a15fb5e3a23cdc5b6cf20f137801fdde331ef219a3805ba11ff5175f55
+solidified_at: 1785375389918
+thread: main
