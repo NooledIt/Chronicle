@@ -23,6 +23,7 @@
   "license": "MIT",
   "scripts": {
     "build": "napi build --platform",
+    "build:release": "napi build --platform --release",
     "test": "node --test test/*.cjs",
     "compare": "node ../benchmarks/differential.cjs",
     "benchmark": "node ../benchmarks/extensive.cjs",

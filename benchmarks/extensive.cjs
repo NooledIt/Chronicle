@@ -371,6 +371,7 @@ async function main() {
     metadata: {
       runs,
       processIsolation: 'one fresh child process per library per trial; library order alternates by trial',
+      nativeBuildProfile: process.env.CHRONICLE_BENCHMARK_BUILD_PROFILE || 'unspecified',
       timing: 'process.hrtime.bigint, adaptive batches, 12ms minimum budget per workload with three-sample floor',
       node: process.version,
       platform: process.platform,

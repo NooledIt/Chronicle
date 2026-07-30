@@ -1,4 +1,4 @@
-intent: Replace linear occurrence scanning with calendar-field jumps and correct repeated-hour real-instant ordering
-knot_id: 38ea6a470742577f48a96f38bf93dd395969276b8f2be10d466bfe9c518eaf18
-solidified_at: 1785373649914
+intent: Regenerate release-native Chronicle benchmarks after field-jump optimization and publish provenance-correct JSON, plots, reports, scripts, and release automation
+knot_id: e156f97b357b34cb309e2f160320a9467c8c14bbe2b6ce8f21e4d27071335566
+solidified_at: 1785373949152
 thread: main

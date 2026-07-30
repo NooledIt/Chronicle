@@ -146,7 +146,8 @@ function environment(input, runtime) {
     ['CPU', get(['cpu', 'cpuModel', 'processor'])],
     ['Node', get(['node', 'nodeVersion'])],
     ['V8', get(['v8', 'v8Version'])],
-    ['Git', get(['gitSha', 'commit', 'sha', 'tag'])],
+    ['Git', get(['gitRevision', 'gitSha', 'commit', 'sha', 'tag'])],
+    ['Native build', get(['nativeBuildProfile'])],
     ['Generated', get(['generatedAt', 'timestamp', 'measuredAt'])],
   ].filter(([, value]) => value)
   return entries

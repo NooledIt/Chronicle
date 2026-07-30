@@ -7,38 +7,40 @@
 - **Platform:** darwin
 - **CPU:** Apple M2 Pro
 - **Node:** v26.0.0
-- **Generated:** 2026-07-30T00:52:14.372Z
+- **Git:** 49183b577d71e79e0c39ac89878d8443b256e39b
+- **Native build:** release
+- **Generated:** 2026-07-30T01:09:11.364Z
 
 ## Results
 
 | Workload | Implementation | Trials (n) | Median (µs) | p95 (µs) | Ratio to workload baseline |
 | --- | --- | ---: | ---: | ---: | ---: |
-| getNextRun-warm: dense | chronicle | 7 | 6.438 | 7.092 | 1× |
-| getNextRun-warm: dense | node-cron | 7 | 97.396 | 124.688 | 14.854× |
-| getNextRun-warm: last-day | chronicle | 7 | 310.709 | 332.625 | 1× |
-| getNextRun-warm: last-day | node-cron | 7 | 21.997 | 23.724 | 0.071× |
-| getNextRun-warm: last-offset | chronicle | 7 | 9,109.833 | 9,109.833 | 1× |
-| getNextRun-warm: last-offset | node-cron | 7 | 30.479 | 32.438 | 3.3e-3× |
-| getNextRun-warm: last-weekday | chronicle | 7 | 310.916 | 338.875 | 1× |
-| getNextRun-warm: last-weekday | node-cron | 7 | 22.466 | 24.013 | 0.073× |
-| getNextRun-warm: leap | chronicle | 7 | 183,491.458 | 183,491.458 | 1× |
-| getNextRun-warm: leap | node-cron | 7 | 89.344 | 105.469 | 4.9e-4× |
-| getNextRun-warm: named | chronicle | 7 | 10,597.084 | 10,597.084 | 1× |
-| getNextRun-warm: named | node-cron | 7 | 25.604 | 27.419 | 2.4e-3× |
-| getNextRun-warm: nearest-weekday | chronicle | 7 | 4,723.125 | 4,723.125 | 1× |
-| getNextRun-warm: nearest-weekday | node-cron | 7 | 28.156 | 31.177 | 6.0e-3× |
-| getNextRun-warm: nth-weekday | chronicle | 7 | 6,025.208 | 6,025.208 | 1× |
-| getNextRun-warm: nth-weekday | node-cron | 7 | 30.453 | 33.292 | 5.1e-3× |
-| getNextRun-warm: simple | chronicle | 7 | 115.083 | 121.511 | 1× |
-| getNextRun-warm: simple | node-cron | 7 | 23.336 | 25.763 | 0.199× |
-| getNextRun-warm: stepped | chronicle | 7 | 11.286 | 11.923 | 1× |
-| getNextRun-warm: stepped | node-cron | 7 | 22.896 | 26.49 | 2.05× |
-| getNextRun-warm: weekday-last | chronicle | 7 | 310.541 | 335.791 | 1× |
-| getNextRun-warm: weekday-last | node-cron | 7 | 23.318 | 25.815 | 0.075× |
-| getNextRun-warm: wrapped | chronicle | 7 | 29,748.458 | 29,748.458 | 1× |
-| getNextRun-warm: wrapped | node-cron | 7 | 32.708 | 37.26 | 1.1e-3× |
-| getNextRun-warm: yearly | chronicle | 7 | 49,043.75 | 49,043.75 | 1× |
-| getNextRun-warm: yearly | node-cron | 7 | 40.229 | 46.5 | 8.2e-4× |
+| getNextRun-warm: dense | chronicle | 7 | 1.905 | 2.217 | 1× |
+| getNextRun-warm: dense | node-cron | 7 | 43.615 | 64.563 | 22.895× |
+| getNextRun-warm: last-day | chronicle | 7 | 2.083 | 3.091 | 1× |
+| getNextRun-warm: last-day | node-cron | 7 | 22.177 | 26.471 | 10.647× |
+| getNextRun-warm: last-offset | chronicle | 7 | 2.322 | 2.858 | 1× |
+| getNextRun-warm: last-offset | node-cron | 7 | 30.688 | 38.161 | 13.092× |
+| getNextRun-warm: last-weekday | chronicle | 7 | 2.091 | 2.58 | 1× |
+| getNextRun-warm: last-weekday | node-cron | 7 | 22.396 | 25.99 | 10.641× |
+| getNextRun-warm: leap | chronicle | 7 | 2.974 | 3.737 | 1× |
+| getNextRun-warm: leap | node-cron | 7 | 89.886 | 104.042 | 30.619× |
+| getNextRun-warm: named | chronicle | 7 | 2.835 | 3.157 | 1× |
+| getNextRun-warm: named | node-cron | 7 | 25.622 | 33.997 | 9.083× |
+| getNextRun-warm: nearest-weekday | chronicle | 7 | 2.336 | 2.704 | 1× |
+| getNextRun-warm: nearest-weekday | node-cron | 7 | 28.573 | 38.125 | 12.232× |
+| getNextRun-warm: nth-weekday | chronicle | 7 | 2.395 | 3.009 | 1× |
+| getNextRun-warm: nth-weekday | node-cron | 7 | 30.151 | 33.479 | 12.692× |
+| getNextRun-warm: simple | chronicle | 7 | 2.042 | 2.882 | 1× |
+| getNextRun-warm: simple | node-cron | 7 | 23.578 | 30.633 | 11.61× |
+| getNextRun-warm: stepped | chronicle | 7 | 2.063 | 2.745 | 1× |
+| getNextRun-warm: stepped | node-cron | 7 | 23.18 | 28.529 | 11.318× |
+| getNextRun-warm: weekday-last | chronicle | 7 | 2.116 | 2.835 | 1× |
+| getNextRun-warm: weekday-last | node-cron | 7 | 22.99 | 27.966 | 11.011× |
+| getNextRun-warm: wrapped | chronicle | 7 | 2.882 | 3.48 | 1× |
+| getNextRun-warm: wrapped | node-cron | 7 | 32.635 | 44.505 | 11.295× |
+| getNextRun-warm: yearly | chronicle | 7 | 2.396 | 3.462 | 1× |
+| getNextRun-warm: yearly | node-cron | 7 | 39.979 | 52.734 | 16.735× |
 
 ## Comparability caveat
 

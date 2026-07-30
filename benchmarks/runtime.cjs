@@ -354,6 +354,7 @@ async function main() {
       logicalCpuCount: os.cpus().length,
       chronicleVersion: chroniclePackage.version,
       nodeCronVersion: incumbentPackage.version,
+      nativeBuildProfile: process.env.CHRONICLE_BENCHMARK_BUILD_PROFILE || 'unspecified',
     },
     comparability: [
       'Every library/scenario pair runs in a fresh Node process; cases run sequentially to avoid direct CPU contention.',

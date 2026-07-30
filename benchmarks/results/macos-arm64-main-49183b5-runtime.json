@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T00:52:14.372Z",
+  "generatedAt": "2026-07-30T01:09:11.364Z",
   "mode": "default",
   "metadata": {
     "node": "v26.0.0",
@@ -10,7 +10,8 @@
     "cpu": "Apple M2 Pro",
     "logicalCpuCount": 12,
     "chronicleVersion": "0.3.0",
-    "nodeCronVersion": "4.6.0"
+    "nodeCronVersion": "4.6.0",
+    "nativeBuildProfile": "release"
   },
   "comparability": [
     "Every library/scenario pair runs in a fresh Node process; cases run sequentially to avoid direct CPU contention.",
@@ -42,14 +43,14 @@
           "median": 1,
           "p95": 1,
           "p99": 1,
-          "max": 2
+          "max": 1
         },
         "callbacksPerSecond": 1,
-        "elapsedMs": 2635.115,
-        "cpuMilliseconds": 8.142,
-        "rssBytes": 55296000
+        "elapsedMs": 1847.31,
+        "cpuMilliseconds": 6.55,
+        "rssBytes": 54755328
       },
-      "workerElapsedMs": 2636.254
+      "workerElapsedMs": 1847.774
     },
     {
       "library": "node-cron",
@@ -74,11 +75,11 @@
           "max": 4
         },
         "callbacksPerSecond": 1,
-        "elapsedMs": 1854.304,
-        "cpuMilliseconds": 35.576,
-        "rssBytes": 61767680
+        "elapsedMs": 1834.491,
+        "cpuMilliseconds": 36.835,
+        "rssBytes": 61030400
       },
-      "workerElapsedMs": 1854.826
+      "workerElapsedMs": 1835.649
     },
     {
       "library": "node-cron",
@@ -100,14 +101,14 @@
           "median": 2,
           "p95": 2,
           "p99": 2,
-          "max": 5
+          "max": 4
         },
         "callbacksPerSecond": 1,
-        "elapsedMs": 1842.657,
-        "cpuMilliseconds": 37.715,
-        "rssBytes": 61898752
+        "elapsedMs": 1834.76,
+        "cpuMilliseconds": 37.872,
+        "rssBytes": 60833792
       },
-      "workerElapsedMs": 1843.113
+      "workerElapsedMs": 1835.214
     },
     {
       "library": "chronicle",
@@ -132,11 +133,11 @@
           "max": 2
         },
         "callbacksPerSecond": 1,
-        "elapsedMs": 1847.332,
-        "cpuMilliseconds": 8.533,
-        "rssBytes": 55345152
+        "elapsedMs": 1844.06,
+        "cpuMilliseconds": 5.634,
+        "rssBytes": 54870016
       },
-      "workerElapsedMs": 1848.719
+      "workerElapsedMs": 1844.591
     },
     {
       "library": "chronicle",
@@ -155,17 +156,17 @@
         "boundaryPhaseMilliseconds": {
           "count": 20,
           "min": 1,
-          "median": 1,
+          "median": 2,
           "p95": 2,
           "p99": 2,
           "max": 2
         },
         "callbacksPerSecond": 10,
-        "elapsedMs": 1846.993,
-        "cpuMilliseconds": 12.461,
-        "rssBytes": 55345152
+        "elapsedMs": 1847.349,
+        "cpuMilliseconds": 8.852,
+        "rssBytes": 54738944
       },
-      "workerElapsedMs": 1847.906
+      "workerElapsedMs": 1847.942
     },
     {
       "library": "node-cron",
@@ -183,18 +184,18 @@
         "deliveryRatio": 1,
         "boundaryPhaseMilliseconds": {
           "count": 20,
-          "min": 2,
-          "median": 5,
-          "p95": 8,
-          "p99": 8,
+          "min": 1,
+          "median": 4,
+          "p95": 7,
+          "p99": 7,
           "max": 8
         },
         "callbacksPerSecond": 10,
-        "elapsedMs": 1837.877,
-        "cpuMilliseconds": 81.682,
-        "rssBytes": 68665344
+        "elapsedMs": 1850.183,
+        "cpuMilliseconds": 52.647,
+        "rssBytes": 63602688
       },
-      "workerElapsedMs": 1839.149
+      "workerElapsedMs": 1850.504
     },
     {
       "library": "node-cron",
@@ -213,17 +214,17 @@
         "boundaryPhaseMilliseconds": {
           "count": 200,
           "min": 1,
-          "median": 14,
-          "p95": 23,
-          "p99": 25,
-          "max": 25
+          "median": 7,
+          "p95": 12,
+          "p99": 13,
+          "max": 13
         },
         "callbacksPerSecond": 100,
-        "elapsedMs": 1852.1,
-        "cpuMilliseconds": 135.067,
-        "rssBytes": 74153984
+        "elapsedMs": 1859.868,
+        "cpuMilliseconds": 109.281,
+        "rssBytes": 74039296
       },
-      "workerElapsedMs": 1852.627
+      "workerElapsedMs": 1860.459
     },
     {
       "library": "chronicle",
@@ -242,17 +243,17 @@
         "boundaryPhaseMilliseconds": {
           "count": 200,
           "min": 1,
-          "median": 5,
-          "p95": 10,
-          "p99": 10,
-          "max": 10
+          "median": 3,
+          "p95": 5,
+          "p99": 5,
+          "max": 5
         },
         "callbacksPerSecond": 100,
-        "elapsedMs": 1833.683,
-        "cpuMilliseconds": 27.085,
-        "rssBytes": 57049088
+        "elapsedMs": 1843.264,
+        "cpuMilliseconds": 19.598,
+        "rssBytes": 56508416
       },
-      "workerElapsedMs": 1834.099
+      "workerElapsedMs": 1843.779
     },
     {
       "library": "chronicle",
@@ -262,18 +263,18 @@
       },
       "metrics": {
         "iterations": 5000,
-        "elapsedMs": 16.826,
-        "operationsPerSecond": 297154.002,
+        "elapsedMs": 17.293,
+        "operationsPerSecond": 289133.63,
         "operationMicroseconds": {
           "count": 5000,
-          "min": 2.667,
-          "median": 2.833,
-          "p95": 3.666,
-          "p99": 8.375,
-          "max": 384.791
+          "min": 2.75,
+          "median": 2.875,
+          "p95": 3.792,
+          "p99": 9.125,
+          "max": 433.416
         }
       },
-      "workerElapsedMs": 19.812
+      "workerElapsedMs": 20.49
     },
     {
       "library": "node-cron",
@@ -283,18 +284,18 @@
       },
       "metrics": {
         "iterations": 5000,
-        "elapsedMs": 132.279,
-        "operationsPerSecond": 37798.93,
+        "elapsedMs": 134.045,
+        "operationsPerSecond": 37300.837,
         "operationMicroseconds": {
           "count": 5000,
-          "min": 22.791,
-          "median": 23.542,
-          "p95": 31.834,
-          "p99": 65.333,
-          "max": 617.875
+          "min": 23.125,
+          "median": 23.667,
+          "p95": 32.667,
+          "p99": 85.375,
+          "max": 576.208
         }
       },
-      "workerElapsedMs": 154.152
+      "workerElapsedMs": 157.327
     },
     {
       "library": "node-cron",
@@ -311,12 +312,12 @@
         "overlapEvents": 2,
         "maximumConcurrency": 1,
         "startOffsetsMilliseconds": [
-          4,
+          2,
           2001,
-          4003
+          4002
         ]
       },
-      "workerElapsedMs": 7000.678
+      "workerElapsedMs": 6983.989
     },
     {
       "library": "chronicle",
@@ -333,12 +334,12 @@
         "overlapEvents": 0,
         "maximumConcurrency": 1,
         "startOffsetsMilliseconds": [
-          3,
-          2003,
+          2,
+          2001,
           4001
         ]
       },
-      "workerElapsedMs": 6816.917
+      "workerElapsedMs": 6848.36
     },
     {
       "library": "chronicle",
@@ -351,50 +352,50 @@
         "coldIterations": 5,
         "coldCreateMicroseconds": {
           "count": 5,
-          "min": 76,
-          "median": 92.667,
-          "p95": 99.666,
-          "p99": 99.666,
-          "max": 1473.959
+          "min": 54.375,
+          "median": 86.541,
+          "p95": 247.709,
+          "p99": 247.709,
+          "max": 966.708
         },
         "coldStartMicroseconds": {
           "count": 5,
-          "min": 30.291,
-          "median": 34.125,
-          "p95": 36.709,
-          "p99": 36.709,
-          "max": 350
+          "min": 20.167,
+          "median": 33.25,
+          "p95": 51.625,
+          "p99": 51.625,
+          "max": 459.667
         },
         "coldFirstExecuteMicroseconds": {
           "count": 5,
-          "min": 87119.25,
-          "median": 90371.291,
-          "p95": 94594.625,
-          "p99": 94594.625,
-          "max": 94771.75
+          "min": 91040.625,
+          "median": 95198.792,
+          "p95": 97757.167,
+          "p99": 97757.167,
+          "max": 109813.708
         },
         "coldTotalMicroseconds": {
           "count": 5,
-          "min": 87232.125,
-          "median": 90496.583,
-          "p95": 94728.75,
-          "p99": 94728.75,
-          "max": 96595.959
+          "min": 91134.167,
+          "median": 96625.417,
+          "p95": 97831.834,
+          "p99": 97831.834,
+          "max": 110113.667
         },
         "coldExecutionsIsolated": true,
         "warmIterations": 500,
-        "warmOperationsPerSecond": 17900.402,
+        "warmOperationsPerSecond": 15996.225,
         "warmRoundTripMicroseconds": {
           "count": 500,
-          "min": 31.084,
-          "median": 51.042,
-          "p95": 88.708,
-          "p99": 137,
-          "max": 416.334
+          "min": 31.916,
+          "median": 53.209,
+          "p95": 110.042,
+          "p99": 186.75,
+          "max": 814.333
         },
-        "stableChildPid": 24709
+        "stableChildPid": 30156
       },
-      "workerElapsedMs": 572.217
+      "workerElapsedMs": 614.042
     },
     {
       "library": "node-cron",
@@ -407,50 +408,50 @@
         "coldIterations": 5,
         "coldCreateMicroseconds": {
           "count": 5,
-          "min": 269,
-          "median": 313.958,
-          "p95": 370.667,
-          "p99": 370.667,
-          "max": 2144.5
+          "min": 220.166,
+          "median": 298,
+          "p95": 320.416,
+          "p99": 320.416,
+          "max": 2167
         },
         "coldStartMicroseconds": {
           "count": 5,
-          "min": 102342.708,
-          "median": 104681.667,
-          "p95": 122566.708,
-          "p99": 122566.708,
-          "max": 132375.333
+          "min": 105784.416,
+          "median": 110807.917,
+          "p95": 117203.542,
+          "p99": 117203.542,
+          "max": 126224.208
         },
         "coldFirstExecuteMicroseconds": {
           "count": 5,
-          "min": 552.333,
-          "median": 685.417,
-          "p95": 749.167,
-          "p99": 749.167,
-          "max": 1003.042
+          "min": 614.5,
+          "median": 687.542,
+          "p95": 879.917,
+          "p99": 879.917,
+          "max": 1028.708
         },
         "coldTotalMicroseconds": {
           "count": 5,
-          "min": 103399.042,
-          "median": 105633.666,
-          "p95": 125714.458,
-          "p99": 125714.458,
-          "max": 133393.75
+          "min": 106932.75,
+          "median": 111694.584,
+          "p95": 118116.333,
+          "p99": 118116.333,
+          "max": 129420.166
         },
         "coldExecutionsIsolated": true,
         "warmIterations": 500,
-        "warmOperationsPerSecond": 6751.104,
+        "warmOperationsPerSecond": 9026.466,
         "warmRoundTripMicroseconds": {
           "count": 500,
-          "min": 72.75,
-          "median": 118.833,
-          "p95": 296.375,
-          "p99": 495.417,
-          "max": 898.833
+          "min": 77.792,
+          "median": 99.5,
+          "p95": 171.875,
+          "p99": 259.959,
+          "max": 448.5
         },
-        "stableChildPid": 24719
+        "stableChildPid": 30163
       },
-      "workerElapsedMs": 754.455
+      "workerElapsedMs": 743.163
     },
     {
       "library": "node-cron",
@@ -468,14 +469,14 @@
         "callbacks": 2,
         "boundaryPhaseMilliseconds": {
           "count": 2,
-          "min": 4,
-          "median": 4,
-          "p95": 4,
-          "p99": 4,
-          "max": 5
+          "min": 2,
+          "median": 2,
+          "p95": 2,
+          "p99": 2,
+          "max": 4
         }
       },
-      "workerElapsedMs": 2623.358
+      "workerElapsedMs": 2604.495
     },
     {
       "library": "chronicle",
@@ -493,14 +494,14 @@
         "callbacks": 2,
         "boundaryPhaseMilliseconds": {
           "count": 2,
-          "min": 0,
-          "median": 0,
-          "p95": 0,
-          "p99": 0,
+          "min": 1,
+          "median": 1,
+          "p95": 1,
+          "p99": 1,
           "max": 2
         }
       },
-      "workerElapsedMs": 1851.669
+      "workerElapsedMs": 1852.117
     },
     {
       "library": "chronicle",
@@ -525,7 +526,7 @@
           "max": null
         }
       },
-      "workerElapsedMs": 1843.201
+      "workerElapsedMs": 1829.849
     },
     {
       "library": "node-cron",
@@ -550,7 +551,7 @@
           "max": null
         }
       },
-      "workerElapsedMs": 1849.086
+      "workerElapsedMs": 1854.218
     }
   ]
 }

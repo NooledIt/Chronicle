@@ -12,12 +12,12 @@ mode parity is tested separately from occurrence performance.
 
 ```bash
 cd node
-npm install
-npm run build
+npm ci
+npm run build:release
 npm test
 npm run compare
-npm run benchmark
-npm run benchmark:runtime
+CHRONICLE_BENCHMARK_BUILD_PROFILE=release npm run benchmark
+CHRONICLE_BENCHMARK_BUILD_PROFILE=release npm run benchmark:runtime
 ```
 
 `npm run compare` does two independently useful things:
@@ -55,16 +55,17 @@ never presented as raw speed.
 
 Passing the correctness harness proves compatibility on the selected shared
 subset and an explicit, tested DST policy dimension. The extensive performance
-suite disproves global superiority for Chronicle 0.3.0: dense expressions and
-inline execution win, while most sparse calendar searches lose because the
-evaluator advances by seconds or minutes instead of jumping calendar fields.
-Results remain machine-, version-, and workload-specific.
+suite for optimizer commit `49183b5` shows Chronicle winning all tested valid
+scheduling/API pairs. Four invalid-input validation/detail paths remain slower.
+This is broad evidence for the tested matrix, not global superiority: results
+remain machine-, build-profile-, version-, and workload-specific.
 
 ## Reporting results
 
 The checked-in macOS result records raw per-process summaries, Node/package/Git
-versions, platform, architecture, CPU, timings, and caveats. Generated SVGs use
-a logarithmic absolute scale and a ratio scale where `node-cron / Chronicle >
-1` favors Chronicle. Never compare absolute numbers across unlike machines or
-runner classes. A valid publication must first pass tests and the differential
-corpus, and must retain losses and low-sample sparse cases.
+versions, native build profile, platform, architecture, CPU, timings, and
+caveats. Generated SVGs use a logarithmic absolute scale and a ratio scale
+where `node-cron / Chronicle > 1` favors Chronicle. Never compare absolute
+numbers across unlike machines or runner classes. A valid publication must
+first pass tests and the differential corpus, must use a release-native build,
+and must retain losses.
