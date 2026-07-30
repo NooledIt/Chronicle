@@ -1,4 +1,4 @@
-intent: Implement isolated background tasks and coordinator-backed distributed execution
-knot_id: 82709f838028ccd2da6f82b709a5d8bff2ad3b302f03d73a1b5926b257607f91
-solidified_at: 1785371357295
+intent: Prepare @nool/chronicle 0.3.0 and platform packages
+knot_id: 42455949f9145ff32c017b9cd634cc38c4a6b331f3107c9527822dad9f2acd77
+solidified_at: 1785371361972
 thread: main
