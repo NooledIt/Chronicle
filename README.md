@@ -1,5 +1,11 @@
 # Chronicle
 
+[![CI](https://github.com/NooledIt/Chronicle/actions/workflows/ci.yml/badge.svg)](https://github.com/NooledIt/Chronicle/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/NooledIt/Chronicle?label=release)](https://github.com/NooledIt/Chronicle/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+[![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-339933?logo=nodedotjs&logoColor=white)](node/package.json)
+[![Rust stable](https://img.shields.io/badge/Rust-stable-000000?logo=rust&logoColor=white)](Cargo.toml)
+
 Chronicle is a deterministic cron-occurrence engine focused on a failure-prone
 part of scheduling: interpreting wall-clock schedules across timezone and
 daylight-saving transitions.
@@ -19,6 +25,46 @@ Chronicle makes it a deliberate API choice:
 
 These behaviors are covered by fixed transition tests for `America/New_York`,
 alongside property tests and an independent JSON conformance corpus.
+
+## Performance compared with node-cron
+
+On an Apple M2 Pro, Chronicle's public `nextOccurrence` operation measured
+**12.91x lower median latency** and **15.63x lower p95 latency** than the
+closest public node-cron next-run path. Lower values are better.
+
+```mermaid
+xychart-beta
+    title "Public next-run API latency (lower is better)"
+    x-axis ["Chronicle median", "Chronicle p95", "node-cron median", "node-cron p95"]
+    y-axis "Latency (microseconds)" 0 --> 160
+    bar [8.542, 9.333, 110.292, 145.833]
+```
+
+| Implementation and measured operation | Median latency | p95 latency | Relative latency (median / p95) |
+| --- | ---: | ---: | ---: |
+| Chronicle `nextOccurrence` | **8.542 us** | **9.333 us** | **1.00x / 1.00x** |
+| node-cron `createTask` -> `start` -> `getNextRun` -> `stop` | 110.292 us | 145.833 us | 12.91x / 15.63x |
+
+### Benchmark labels and method
+
+- **Workload:** compute the next occurrence of `*/15 * * * *`.
+- **Sample size:** seven independent processes with 2,000 measured operations
+  per process; the table reports the median of each run's median and p95.
+- **Environment:** Apple M2 Pro, macOS 26.5.2 arm64, Node.js 26.0.0, and
+  node-cron 4.6.0.
+- **Observed ranges:** Chronicle run medians were 8.541-8.583 us; node-cron run
+  medians were 108.250-112.166 us.
+- **Reproduction:** from `node/`, run `npm install`, `npm run build`, and then
+  `npm run benchmark`.
+
+This is a comparison of the closest **public APIs**, not a parser-only
+microbenchmark. Chronicle evaluates a supplied instant directly, while
+node-cron exposes next-run evaluation through a started task, so the node-cron
+measurement necessarily includes public task-lifecycle overhead. The result
+supports the scoped latency claim above; it does not imply that every scheduler
+workload is 12-16x faster. See the [benchmark protocol](benchmarks/REPORT.md)
+and [full comparison report](docs/comparison-report.md) for the compatibility,
+correctness, and interpretation boundaries.
 
 ## Supported grammar
 
@@ -182,7 +228,7 @@ comparison.
 
 See the measured, scope-bounded [Chronicle vs. node-cron evaluation
 report](docs/comparison-report.md) for compatibility, DST behavior, and
-five-run macOS benchmark evidence.
+additional macOS benchmark evidence.
 
 ## Contributing
 

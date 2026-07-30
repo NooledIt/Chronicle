@@ -1,4 +1,4 @@
-intent: Release: 0.3.0
-knot_id: 2b921c86c23145e04bf8cefd4f10e93daacfc694b88b5778f471918c5df666b1
-solidified_at: 1785371383849
-thread: 
+intent: Publish a reproducible, properly labeled Chronicle versus node-cron benchmark comparison in the README
+knot_id: 77c1b32fc4d2ad7e4f95abf6abad84811f7d38aa14f86ec4cbaa5b06efbddd49
+solidified_at: 1785371806251
+thread: main
