@@ -4,7 +4,7 @@ This matrix prevents an ambiguous claim of “feature parity” with node-cron.
 “Supported” means tested in Chronicle; “planned” is a tracked, unimplemented
 capability; “out of scope” is deliberately not part of the current product.
 
-| Capability | Chronicle v0.1 | Status |
+| Capability | Chronicle v0.3 | Status |
 | --- | --- | --- |
 | Five-field schedules | Yes | Supported |
 | Six-field seconds | Yes | Supported |
@@ -13,10 +13,11 @@ capability; “out of scope” is deliberately not part of the current product.
 | UTC and IANA timezone evaluation | Yes | Supported |
 | Explicit fall-back policy | Yes | Chronicle-specific capability |
 | In-process lifecycle, overlap guard, jitter, run limit | Yes | Supported |
-| `L`, `W`, `#`, `?`, and nicknames | No | Planned only after a written semantic contract |
-| Durable jobs, retries, worker processes, distributed coordination | No | Out of scope for the in-process engine |
+| `L`, `L-n`, `W`, `LW`, `#`, weekday `L`, `?`, wrapped ranges | Yes | Differentially tested |
+| Background task paths | Yes | Isolated persistent child process |
+| Distributed coordination | Yes | Caller-provided coordinator, fail-closed election |
+| Durable jobs and persistent retries | No | Out of scope for the in-memory engine |
 | Prebuilt macOS/Linux/Windows binaries | GitHub Release assets | Automated, checksummed integration artifacts; not yet npm-installed packages |
 
-The Nool task **Close bounded node-cron feature parity gaps** owns any future
-expansion of this matrix. A capability may move to Supported only with fixtures
-and, where possible, differential evidence.
+Capabilities move to Supported only with fixtures and, where possible,
+differential evidence.

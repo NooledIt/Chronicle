@@ -5,8 +5,8 @@
 The incumbent is [`node-cron`](https://www.npmjs.com/package/node-cron). This
 comparison is intentionally restricted to a shared UTC subset: five-field
 expressions plus six-field seconds, wildcards, literals, lists, ranges, steps,
-and named months/weekdays. It does **not** claim general cron-language parity
-or compatibility with extension syntax.
+named months/weekdays, advanced calendar tokens, and wrapped ranges. Execution
+mode parity is tested separately from occurrence performance.
 
 ## Reproduction
 

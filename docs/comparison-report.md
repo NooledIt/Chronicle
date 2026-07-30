@@ -8,9 +8,9 @@ Node v26.0.0, Rust 1.95.0, Chronicle 0.1.1, and node-cron 4.6.0.
 Chronicle is the stronger choice when an application needs a deterministic
 *next occurrence after this supplied instant* calculation and an explicit
 policy for the repeated DST hour. It is **not** currently a replacement for
-node-cron as a general Node.js scheduling product: node-cron has broader cron
-syntax, distributed coordination, background processes, a public npm package,
-and a more mature operating model.
+node-cron as a general Node.js scheduling product: Chronicle now covers its
+documented syntax, background paths, and coordinator contract, while node-cron
+retains the more mature operating history and public distribution footprint.
 
 The performance result below is real for the measured public paths, but is not
 a general claim that one scheduler is intrinsically 13.62x faster. Chronicle
@@ -26,11 +26,11 @@ lists, ranges, steps, names, and Sunday as both `0` and `7`.
 | Area | Chronicle 0.1.1 | node-cron 4.6.0 | Assessment |
 | --- | --- | --- | --- |
 | Five/six fields, lists, ranges, steps, names | Supported; 10 validation cases and 6 next-run cases agree | Supported | Shared subset matches |
-| Advanced calendar syntax | No `L`, `L-n`, `W`, `#`, `?`, or inverted ranges | Supports those extensions | node-cron leads |
+| Advanced calendar syntax | Supports `L`, `L-n`, `W`, `LW`, `#`, `?`, weekday `L`, and inverted ranges | Supports those extensions | Differential corpus matches |
 | Timezone behavior | IANA zones, fixed-instant evaluator | Task timezone | Different but useful models |
 | DST repeated hour | Caller chooses once or twice | Documents one execution in the repeated hour | Chronicle has an explicit policy dimension |
 | Lifecycle controls | Start/stop/destroy/status, overlap guard, jitter, run limit | Equivalent core controls and richer task context | Near parity for local controls |
-| Distributed coordination/background process | Not implemented | Implemented | node-cron leads |
+| Distributed coordination/background process | Implemented with caller coordinator and isolated worker | Implemented | Compatible contract; independent implementation |
 | Durable retries/persistence | Not implemented | Not a node-cron guarantee either | Neither is a durable job queue |
 | Distribution | Private local N-API package; release assets planned | Public, zero-dependency npm package | node-cron leads |
 
@@ -82,8 +82,8 @@ supplied historical instant.
 
 ## Limits and next decisions
 
-1. Do not market full node-cron parity. The advanced syntax and operating
-   features above are material gaps.
+1. Describe compatibility as the tested node-cron surface, not a guarantee for
+   undocumented internals or persistent job-queue behavior.
 2. Use Chronicle's performance number only with the public-path caveat. A fair
    parser-only incumbent benchmark would require an upstream-exposed API or a
    separately reviewed internal benchmark.

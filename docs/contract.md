@@ -13,6 +13,10 @@ English names. Field ranges are second/minute `0-59`, hour `0-23`,
 day-of-month `1-31`, month `1-12`, and day-of-week `0-7`, where both `0` and
 `7` mean Sunday. Five-field input implies second `0`.
 
+Ranges may wrap through their boundary (`22-2`, `Fri-Mon`). Day-of-month also
+accepts `L`, `L-n`, `nW`, and `LW`; day-of-week accepts `weekday#n` and
+`weekdayL`. `?` aliases `*` in either day field.
+
 ## Deterministic semantics
 
 All supplied fields must match. In particular, day-of-month and day-of-week are
@@ -21,10 +25,9 @@ dates simply do not occur. Inputs and outputs are UTC instants.
 
 ## Explicit non-goals for v0
 
-This release does not implement extension syntax such as `L`, `W`, `#`, `?`, or
-cron nicknames. It also excludes persistence, retries, distributed execution,
-and a background-worker process. The Node lifecycle wrapper is intentionally
-in-process.
+This release excludes job persistence and durable retries. Node background
+paths and coordinator-backed distributed execution are execution-layer
+features and do not change occurrence evaluation.
 
 ## Local time and DST
 

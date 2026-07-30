@@ -19,8 +19,7 @@ task.stop()
 
 The package exports `schedule`, `createTask`, `validate`, `validateDetailed`,
 `parse`, `getTask`, `getTasks`, and `shutdown`, along with Chronicle's
-`nextOccurrence` extension. It supports five/six fields, lists, ranges, steps,
-and named months/weekdays. It explicitly rejects node-cron background task
-paths, distributed coordination, and advanced calendar tokens (`L`, `W`, `#`,
-`?`, and inverted ranges). See the repository README for the complete
-compatibility matrix.
+`nextOccurrence` extension. It supports node-cron's advanced calendar tokens,
+wrapping ranges, isolated background module paths, and coordinator-backed
+distributed execution. Jobs remain in-memory and require a caller-provided
+coordinator for cross-process election.

@@ -36,7 +36,9 @@ Each field accepts:
 - comma-separated lists (`1,5,9`), inclusive ranges (`9-17`), and steps over
   a wildcard or range (`*/15`, `9-17/2`);
 - three-letter or full English month and weekday names (`Jan`, `September`,
-  `Mon`, `Friday`).
+  `Mon`, `Friday`);
+- wrapping ranges (`22-2`, `Fri-Mon`), `L`/`L-n`, nearest weekdays (`15W`,
+  `LW`), nth/last weekdays (`Mon#2`, `5L`), and `?` in either day field.
 
 The ranges are second/minute `0-59`, hour `0-23`, day-of-month `1-31`, month
 `1-12`, and day-of-week `0-7` (`0` and `7` are Sunday). With five fields,
@@ -152,11 +154,11 @@ const task = cron.schedule('*/5 * * * *', refreshCache, {
 ```
 
 `schedule`, `createTask`, `validate`, `validateDetailed`, `parse`, task
-registry access, and shutdown are included. Chronicle deliberately rejects
-background task paths, distributed coordination, and advanced calendar tokens
-instead of silently changing their behavior. See the [feature-parity
-matrix](docs/feature-parity.md) before migrating applications that use those
-node-cron features.
+registry access, and shutdown are included. Background module paths execute in
+an isolated child process. Distributed jobs accept node-cron's
+`distributed`, `runCoordinator`, and `distributedLease` options and fail
+closed when election fails. See the [feature-parity matrix](docs/feature-parity.md)
+for the remaining non-goals.
 
 ## Built with Nool
 
@@ -191,11 +193,9 @@ forms are available in GitHub Issues; design proposals use
 
 ## Current limitations
 
-Chronicle is not a drop-in replacement for mature Node cron packages. It
-intentionally excludes extension syntax such as `L`, `W`, `#`, `?`, and cron
-nicknames; it is an in-process scheduler with no persistence, retries,
-distributed coordination, or background-worker process. The native addon is
-local-only, not yet packaged for cross-platform npm distribution. The bounded
+Chronicle remains an in-memory scheduler: it does not persist jobs or provide
+durable retries after process failure. Distributed coordination requires a
+caller-provided coordinator such as a Redis-backed lease implementation. The bounded
 differential harness against `node-cron` is documented in [the benchmark
 protocol](benchmarks/REPORT.md), including what the comparison does and does
 not prove.
