@@ -99,7 +99,8 @@ jobs:
           cp node/chronicle_node.*.node release-assets/${{ matrix.artifact }}/
           cp node/chronicle_node.*.node node/npm/${{ matrix.artifact }}/
           cd release-assets/${{ matrix.artifact }}
-          shasum -a 256 chronicle_node.*.node > SHA256SUMS-${{ matrix.artifact }}
+          binary=$(printf '%s\n' chronicle_node.*.node)
+          node -e "const crypto = require('node:crypto'); const fs = require('node:fs'); const path = process.argv[1]; const digest = crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex'); console.log(digest + '  ' + path)" "$binary" > SHA256SUMS-${{ matrix.artifact }}
       - name: Publish the optional platform package
         shell: bash
         working-directory: node/npm/${{ matrix.artifact }}

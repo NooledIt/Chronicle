@@ -1,4 +1,4 @@
-intent: Release: 0.4.1
-knot_id: a5487802c559057a3df0a209aee48da4ee61c83fc579aeb7bbe94c13fd22593b
-solidified_at: 1785375660531
-thread: 
+intent: Generate release checksums portably on macOS Linux and Windows
+knot_id: a9e5f8b4e58cb339d8caf58bbdcc993516c0a8259958b377ce31f30eca2bd866
+solidified_at: 1785375809610
+thread: main
