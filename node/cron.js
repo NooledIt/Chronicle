@@ -12,15 +12,25 @@ function validate(expression) {
   try { native.nextOccurrence(expression, '2026-01-01T00:00:00Z'); return true } catch { return false }
 }
 
-function parseToken(token, min, max, names) {
+function parseToken(token, min, max, names, field) {
   const normalize = (value) => {
     const named = names?.[String(value).toLowerCase()]
     const parsed = named ?? Number(value)
     if (!Number.isInteger(parsed) || parsed < min || parsed > max) throw new Error(`invalid cron value: ${value}`)
     return max === 7 && parsed === 7 ? 0 : parsed
   }
-  const result = new Set()
+  const result = []
+  const add = (value) => { if (!result.includes(value)) result.push(value) }
   for (const part of token.split(',')) {
+    if (part === '?' && (field === 'dayOfMonth' || field === 'dayOfWeek')) {
+      for (let value = min; value <= max; value += 1) add(max === 7 && value === 7 ? 0 : value)
+      continue
+    }
+    if ((field === 'dayOfMonth' && /^(L(?:-\d+)?|(?:L|\d+)W)$/i.test(part)) ||
+        (field === 'dayOfWeek' && /^(?:\d+|[A-Za-z]+)(?:#\d+|L)$/i.test(part))) {
+      add(part)
+      continue
+    }
     const [range, stepText] = part.split('/')
     if (part.split('/').length > 2) throw new Error(`invalid cron field: ${token}`)
     const step = stepText === undefined ? 1 : Number(stepText)
@@ -32,17 +42,23 @@ function parseToken(token, min, max, names) {
       else if (bounds.length === 2) { start = normalize(bounds[0]); end = normalize(bounds[1]) }
       else throw new Error(`invalid cron range: ${range}`)
     }
-    if (start > end) throw new Error(`inverted ranges are not supported: ${range}`)
-    for (let value = start; value <= end; value += step) result.add(max === 7 && value === 7 ? 0 : value)
+    if (start <= end) {
+      for (let value = start; value <= end; value += step) add(max === 7 && value === 7 ? 0 : value)
+    } else {
+      const wrapped = []
+      for (let value = start; value <= max; value += 1) wrapped.push(value)
+      for (let value = min; value <= end; value += 1) wrapped.push(value)
+      for (let index = 0; index < wrapped.length; index += step) add(max === 7 && wrapped[index] === 7 ? 0 : wrapped[index])
+    }
   }
-  return [...result].sort((a, b) => a - b)
+  return result
 }
 
 function parse(expression) {
   if (!validate(expression)) throw new Error(`invalid cron expression: ${expression}`)
   const raw = expression.trim().split(/\s+/)
   const values = raw.length === 5 ? ['0', ...raw] : raw
-  return Object.fromEntries(FIELDS.map(([key, min, max, names], index) => [key, parseToken(values[index], min, max, names)]))
+  return Object.fromEntries(FIELDS.map(([key, min, max, names], index) => [key, parseToken(values[index], min, max, names, key)]))
 }
 
 function validateDetailed(expression) {
@@ -50,14 +66,12 @@ function validateDetailed(expression) {
   catch (error) { return { valid: false, errors: [{ field: 'expression', value: expression, message: error.message }] } }
 }
 
-function solvePath(filePath) { return require('node:path').resolve(filePath) }
-
 const api = {
   ...scheduler,
   validate,
   validateDetailed,
   parse,
-  solvePath,
+  solvePath: scheduler.solvePath,
   nextOccurrence: native.nextOccurrence,
 }
 

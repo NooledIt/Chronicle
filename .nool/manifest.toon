@@ -1,4 +1,4 @@
-intent: Implement advanced calendar syntax and differential occurrence evidence
-knot_id: edc70a30481f760d1cc3fd363b8164fff338983c0b1a882edfa07a9d1c1eb13c
-solidified_at: 1785371352173
+intent: Implement isolated background tasks and coordinator-backed distributed execution
+knot_id: 82709f838028ccd2da6f82b709a5d8bff2ad3b302f03d73a1b5926b257607f91
+solidified_at: 1785371357295
 thread: main

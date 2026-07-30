@@ -1,5 +1,6 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
+const path = require('node:path')
 const cron = require('..')
 
 test('exposes the common node-cron inline API from the package root', async () => {
@@ -23,7 +24,24 @@ test('exposes the common node-cron inline API from the package root', async () =
   assert.equal(cron.getTask(task.id), undefined)
 })
 
-test('rejects unsupported distributed and background task modes explicitly', () => {
-  assert.throws(() => cron.createTask('* * * * *', './worker.js'), /inline task functions only/)
-  assert.throws(() => cron.createTask('* * * * *', () => {}, { distributed: true }), /Distributed coordination/)
+test('distributed execution requires an installed coordinator', () => {
+  assert.throws(
+    () => cron.createTask('* * * * *', () => {}, { distributed: true }),
+    /requires options\.runCoordinator or a global coordinator/,
+  )
+})
+
+test('advanced parse output matches node-cron', () => {
+  const incumbent = require('node-cron')
+  for (const expression of ['0 0 L * *', '0 0 L-3 * *', '0 0 15W * *', '0 0 LW * *', '0 0 ? * 2#3', '0 0 ? * 5L', '0 22-2 * * *']) {
+    assert.deepEqual(cron.parse(expression), incumbent.parse(expression), expression)
+  }
+})
+
+test('background paths resolve relative to the calling module', async () => {
+  assert.equal(cron.solvePath('./fixtures/background-task.cjs'), path.join(__dirname, 'fixtures', 'background-task.cjs'))
+  const task = cron.createTask('* * * * *', './fixtures/background-task.cjs')
+  const result = await task.execute()
+  assert.notEqual(result.pid, process.pid)
+  task.destroy()
 })
