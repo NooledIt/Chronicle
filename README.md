@@ -1,30 +1,62 @@
-# Chronicle
+# 🕰️ Chronicle
 
-[![CI](https://github.com/NooledIt/Chronicle/actions/workflows/ci.yml/badge.svg)](https://github.com/NooledIt/Chronicle/actions/workflows/ci.yml)
-[![Latest release](https://img.shields.io/github/v/release/NooledIt/Chronicle?label=release)](https://github.com/NooledIt/Chronicle/releases/latest)
+[![CI](https://github.com/noolinc/Chronicle/actions/workflows/ci.yml/badge.svg)](https://github.com/noolinc/Chronicle/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/noolinc/Chronicle?label=release)](https://github.com/noolinc/Chronicle/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
-[![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-339933?logo=nodedotjs&logoColor=white)](node/package.json)
+[![Node.js 20+](https://img.shields.io/badge/Node.js-20%2B-339933?logo=nodedotjs&logoColor=white)](node/package.json)
 [![Rust stable](https://img.shields.io/badge/Rust-stable-000000?logo=rust&logoColor=white)](Cargo.toml)
 
-Chronicle is a deterministic cron-occurrence engine focused on a failure-prone
-part of scheduling: interpreting wall-clock schedules across timezone and
-daylight-saving transitions.
+Chronicle is a `node-cron`-compatible scheduler with deterministic occurrence
+queries, explicit daylight-saving policies, isolated background workers,
+distributed-coordination hooks, and a fast native Rust scheduling engine.
 
-The current release is a Rust core library. It evaluates a schedule to the
-first matching instant strictly after an input instant, either in UTC or an
-IANA timezone.
+For the common Node scheduling API, switching packages is normally one changed
+import:
+
+```bash
+npm install @nool/chronicle
+```
+
+```js
+// Before: const cron = require('node-cron')
+const cron = require('@nool/chronicle')
+
+const task = cron.schedule('*/5 * * * *', refreshCache, {
+  timezone: 'UTC',
+  noOverlap: true,
+})
+```
+
+Chronicle supports `schedule`, `createTask`, `validate`, task registry access,
+and the familiar start/stop/destroy lifecycle. See [Migration and
+compatibility](#migration-and-compatibility) for the exact boundary.
 
 ## Why Chronicle
 
-Many schedulers leave the repeated hour at daylight-saving fall-back implicit.
-Chronicle makes it a deliberate API choice:
+Chronicle can be used as both a cron runner and a deterministic scheduling
+primitive. That makes several workflows possible without building a separate
+calendar engine around a scheduler:
 
-- `DstPolicy::WallClockOnce` runs the earlier occurrence only.
-- `DstPolicy::WallClockTwice` runs both occurrences.
-- A nonexistent local minute during spring-forward is skipped.
+- **Forecast from an exact instant.** `nextOccurrence(expression, after)` can
+  preview billing dates, generate schedule calendars, replay missed windows,
+  and test leap-day behavior without changing the system clock.
+- **Choose DST behavior explicitly.** `wallClockOnce` runs the earlier instant
+  in a repeated fall-back hour; `wallClockTwice` runs both. Nonexistent local
+  times during spring-forward are skipped.
+- **Express operational calendars directly.** Chronicle supports `L`, `L-n`,
+  `W`, `LW`, `#`, weekday `L`, `?`, and wrapped ranges such as `22-2` and
+  `Fri-Mon`.
+- **Isolate job code.** A background task path runs in a persistent child
+  process instead of sharing the scheduler process.
+- **Coordinate replicas.** A caller-provided lease coordinator can elect one
+  runner across application instances; Chronicle fails closed when election
+  fails.
+- **Scale scheduling-heavy workloads.** The native evaluator substantially
+  reduces next-run and lifecycle overhead in the recorded macOS benchmark.
 
-These behaviors are covered by fixed transition tests for `America/New_York`,
-alongside property tests and an independent JSON conformance corpus.
+These behaviors are covered by fixed timezone-transition tests, property
+tests, an independent JSON conformance corpus, and a differential suite against
+`node-cron`.
 
 ## Performance compared with node-cron
 
@@ -125,12 +157,12 @@ cargo test --workspace
 
 GitHub Actions runs the Rust and Node suites on macOS (Intel and Apple
 Silicon), Linux, and Windows. Publishing a GitHub Release rebuilds each native
-addon, attaches loader-named platform binaries and SHA-256 checksums to that
-release, and attaches a macOS benchmark report. These are integration assets:
-the package is still private and does not yet provide npm optional-dependency
-packages for transparent cross-platform installation. See [the benchmark
-protocol](benchmarks/REPORT.md) for the scope and interpretation of those
-results.
+addon, attaches loader-named platform binaries, SHA-256 checksums, and a macOS
+benchmark report, and publishes the configured platform packages plus
+`@nool/chronicle` when the npm publishing secret is available. The main package
+selects the matching macOS, Linux, or Windows binding through npm optional
+dependencies. See [the benchmark protocol](benchmarks/REPORT.md) for the scope
+and interpretation of the results.
 
 Maintainers publish a release through the **Mark a release** GitHub Actions
 workflow. It uses the repository-scoped `GITHUB_NOOL_PUBLIC_TOKEN` secret to
@@ -144,10 +176,10 @@ The test suite includes:
 - generated property tests for occurrence ordering and field constraints;
 - malformed-input regression tests.
 
-## Node API (local addon)
+## Node API development
 
-The `node/` package exposes the native core to Node.js through N-API. Build it
-locally before use:
+The published package exposes the native core to Node.js through N-API. When
+working from a source checkout, build the addon locally before use:
 
 ```bash
 cd node
@@ -188,10 +220,10 @@ const task = schedule('*/5 * * * *', refreshCache, {
 Tasks support `start`, `stop`, `destroy`, `execute`, `getStatus`, and
 `getNextRun`. They emit `executed`, `overlap`, `error`, and `destroyed` events.
 
-## npm installation and node-cron migration
+## Migration and compatibility
 
-For the supported inline-task subset, Chronicle has the same common entry
-points as node-cron:
+For the supported task surface, Chronicle has the same common entry points as
+`node-cron`:
 
 ```bash
 npm install @nool/chronicle
@@ -206,10 +238,16 @@ const task = cron.schedule('*/5 * * * *', refreshCache, {
 
 `schedule`, `createTask`, `validate`, `validateDetailed`, `parse`, task
 registry access, and shutdown are included. Background module paths execute in
-an isolated child process. Distributed jobs accept node-cron's
-`distributed`, `runCoordinator`, and `distributedLease` options and fail
-closed when election fails. See the [feature-parity matrix](docs/feature-parity.md)
-for the remaining non-goals.
+an isolated child process. Distributed jobs accept `distributed`,
+`runCoordinator`, and `distributedLease` options and fail closed when election
+fails.
+
+Run the existing application's tests when migrating, particularly around
+events, timezone defaults, overlap handling, and background modules. Chronicle
+is intentionally not a durable job queue: it does not persist jobs, retry work
+after process failure, or provide its own distributed consensus service. See
+the tested [feature-parity matrix](docs/feature-parity.md) for the precise
+surface and non-goals.
 
 ## Built with Nool
 
@@ -246,10 +284,12 @@ forms are available in GitHub Issues; design proposals use
 
 Chronicle remains an in-memory scheduler: it does not persist jobs or provide
 durable retries after process failure. Distributed coordination requires a
-caller-provided coordinator such as a Redis-backed lease implementation. The bounded
-differential harness against `node-cron` is documented in [the benchmark
-protocol](benchmarks/REPORT.md), including what the comparison does and does
-not prove.
+caller-provided coordinator such as a Redis-backed lease implementation. The
+performance improvements apply to scheduler operations, not the runtime of the
+jobs themselves; a long-running application callback does not become faster.
+The bounded differential harness against `node-cron` is documented in [the
+benchmark protocol](benchmarks/REPORT.md), including what the comparison does
+and does not prove.
 
 ## License
 

@@ -1,4 +1,4 @@
-# @nool/chronicle
+# 🕰️ @nool/chronicle
 
 Install Chronicle as a node-cron-compatible package for the supported inline
 scheduling subset:

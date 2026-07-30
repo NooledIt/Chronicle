@@ -1,4 +1,4 @@
-intent: Create task: Clarify Chronicle Node migration value
-knot_id: 02e5052ec7851d1c8c5fa4aaa3d2f8cbaea5465a88adc2a2af20fdd98c2f18d0
-solidified_at: 1785374212444
-thread: 
+intent: Present Chronicle as a node-cron replacement, explain its distinct capabilities and migration boundaries, correct stale project metadata, and apply the clock mark
+knot_id: 42259b4186733f7db2b974f0aa866810c06a44cafec3d3e7efa2844abee69fb2
+solidified_at: 1785374317498
+thread: main
