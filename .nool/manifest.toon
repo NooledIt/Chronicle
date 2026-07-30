@@ -1,4 +1,4 @@
-intent: Trigger release publication from version tags and create the GitHub Release after successful cross-platform builds
-knot_id: ca2e470d16d6a930aec69afb24c84eb1f15cce8b85eb37a906537ae9bd32b8ac
-solidified_at: 1785375647353
-thread: main
+intent: Release: 0.4.1
+knot_id: a5487802c559057a3df0a209aee48da4ee61c83fc579aeb7bbe94c13fd22593b
+solidified_at: 1785375660531
+thread: 
