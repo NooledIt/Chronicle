@@ -1,4 +1,4 @@
-intent: Publish a reproducible, properly labeled Chronicle versus node-cron benchmark comparison in the README
-knot_id: 77c1b32fc4d2ad7e4f95abf6abad84811f7d38aa14f86ec4cbaa5b06efbddd49
-solidified_at: 1785371806251
-thread: main
+intent: Create task: Publish extensive scheduler benchmark suite
+knot_id: b28397a575a7f72902332e5a442c4cf28f2b0ed87081f1c4de94b3af332db514
+solidified_at: 1785371966253
+thread: 
