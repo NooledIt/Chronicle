@@ -151,7 +151,15 @@ jobs:
           npm run compare
           mkdir -p ../benchmarks/results
           CHRONICLE_BENCHMARK_BUILD_PROFILE=release node ../benchmarks/extensive.cjs --runs 7 --output ../benchmarks/results/macos-arm64-${{ github.ref_name }}-extensive.json
-          CHRONICLE_BENCHMARK_BUILD_PROFILE=release node ../benchmarks/runtime.cjs --output ../benchmarks/results/macos-arm64-${{ github.ref_name }}-runtime.json
+          runtime_ok=false
+          for attempt in 1 2 3; do
+            if CHRONICLE_BENCHMARK_BUILD_PROFILE=release node ../benchmarks/runtime.cjs --output ../benchmarks/results/macos-arm64-${{ github.ref_name }}-runtime.json; then
+              runtime_ok=true
+              break
+            fi
+            echo "::warning::Runtime benchmark attempt $attempt failed; retrying in a fresh process"
+          done
+          $runtime_ok
           node ../benchmarks/render-report.cjs \
             --input ../benchmarks/results/macos-arm64-${{ github.ref_name }}-extensive.json \
             --runtime ../benchmarks/results/macos-arm64-${{ github.ref_name }}-runtime.json \

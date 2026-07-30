@@ -1,4 +1,4 @@
-intent: Generate release checksums portably on macOS Linux and Windows
-knot_id: a9e5f8b4e58cb339d8caf58bbdcc993516c0a8259958b377ce31f30eca2bd866
-solidified_at: 1785375809610
+intent: Retry flaky runtime benchmark evidence in fresh processes without masking persistent failures
+knot_id: 30e9191ada3945a9c131c8cd76218acc26056155f8f72f104a8eeaa31b66b02d
+solidified_at: 1785375855340
 thread: main
