@@ -1,3 +1,3 @@
-# `@nooledit/chronicle-darwin-x64`
+# `@nool/chronicle-darwin-x64`
 
-This is the **x86_64-apple-darwin** binary for `@nooledit/chronicle`
+This is the **x86_64-apple-darwin** binary for `@nool/chronicle`

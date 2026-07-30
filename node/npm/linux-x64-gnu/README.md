@@ -1,3 +1,3 @@
-# `@nooledit/chronicle-linux-x64-gnu`
+# `@nool/chronicle-linux-x64-gnu`
 
-This is the **x86_64-unknown-linux-gnu** binary for `@nooledit/chronicle`
+This is the **x86_64-unknown-linux-gnu** binary for `@nool/chronicle`

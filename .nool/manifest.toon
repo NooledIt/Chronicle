@@ -1,4 +1,4 @@
-intent: Rename main and platform npm packages to @nool scope
-knot_id: 2ed9561163f1eba138401509d4bf9f44e49b34cd37cb038c865bb0fd7b26f924
-solidified_at: 1785370406399
+intent: Correct @nool platform package documentation
+knot_id: ba63fe187b89a396b063f447418eaad3d30653f51a10424b33d331d14b3ef81c
+solidified_at: 1785370406808
 thread: main
