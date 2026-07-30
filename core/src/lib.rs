@@ -115,6 +115,13 @@ impl Field {
     fn matches(&self, value: u32) -> bool {
         matches!(self, Self::Any) || matches!(self, Self::Values(values) if values.contains(&value))
     }
+
+    fn next_at_or_after(&self, value: u32) -> Option<u32> {
+        match self {
+            Self::Any => Some(value),
+            Self::Values(values) => values.range(value..).next().copied(),
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -271,11 +278,7 @@ fn invalid(field: &'static str, value: &str) -> CronError {
 }
 
 fn normalize_weekday(value: u32) -> u32 {
-    if value == 7 {
-        0
-    } else {
-        value
-    }
+    if value == 7 { 0 } else { value }
 }
 
 fn last_day_of_month(year: i32, month: u32) -> u32 {
@@ -401,14 +404,13 @@ impl Schedule {
     }
 
     pub fn next_after(&self, after: DateTime<Utc>) -> Result<DateTime<Utc>, CronError> {
-        let mut candidate = self.truncate(after.naive_utc()).and_utc() + self.increment();
-        for _ in 0..self.search_limit() {
-            if self.matches(candidate.naive_utc()) {
-                return Ok(candidate);
-            }
-            candidate += self.increment();
-        }
-        Err(CronError::NoOccurrenceWithinSearchLimit)
+        let start = self.truncate(after.naive_utc()) + self.increment();
+        let deadline = start
+            .checked_add_signed(Duration::minutes(SEARCH_LIMIT_MINUTES))
+            .ok_or(CronError::NoOccurrenceWithinSearchLimit)?;
+        self.next_matching_at_or_after(start, deadline)
+            .map(|candidate| candidate.and_utc())
+            .ok_or(CronError::NoOccurrenceWithinSearchLimit)
     }
 
     pub fn next_after_in_timezone(
@@ -417,18 +419,111 @@ impl Schedule {
         timezone: Tz,
         policy: DstPolicy,
     ) -> Result<DateTime<Utc>, CronError> {
-        let mut candidate = self.truncate(after.with_timezone(&timezone).naive_local());
-        for _ in 0..self.search_limit() {
-            if self.matches(candidate) {
-                let mut resolved = resolve_local(timezone, candidate, policy);
-                resolved.sort_unstable();
-                if let Some(next) = resolved.into_iter().find(|instant| *instant > after) {
-                    return Ok(next);
+        let mut cursor = self.truncate(after.with_timezone(&timezone).naive_local());
+        let deadline = cursor
+            .checked_add_signed(Duration::minutes(SEARCH_LIMIT_MINUTES))
+            .ok_or(CronError::NoOccurrenceWithinSearchLimit)?;
+        if policy == DstPolicy::WallClockTwice && is_ambiguous(timezone, cursor) {
+            let (start, end) = ambiguity_window(timezone, cursor, self.increment())?;
+            let window_deadline = end
+                .checked_sub_signed(self.increment())
+                .ok_or(CronError::NoOccurrenceWithinSearchLimit)?;
+            let mut scan = start;
+            let mut earliest = None;
+            while let Some(candidate) = self.next_matching_at_or_after(scan, window_deadline) {
+                for instant in resolve_local(timezone, candidate, policy) {
+                    if instant > after && earliest.is_none_or(|current| instant < current) {
+                        earliest = Some(instant);
+                    }
                 }
+                scan = candidate
+                    .checked_add_signed(self.increment())
+                    .ok_or(CronError::NoOccurrenceWithinSearchLimit)?;
             }
-            candidate += self.increment();
+            if let Some(next) = earliest {
+                return Ok(next);
+            }
+            cursor = end;
+        }
+        while let Some(candidate) = self.next_matching_at_or_after(cursor, deadline) {
+            let mut resolved = resolve_local(timezone, candidate, policy);
+            resolved.sort_unstable();
+            if let Some(next) = resolved.into_iter().find(|instant| *instant > after) {
+                return Ok(next);
+            }
+            cursor = candidate
+                .checked_add_signed(self.increment())
+                .ok_or(CronError::NoOccurrenceWithinSearchLimit)?;
         }
         Err(CronError::NoOccurrenceWithinSearchLimit)
+    }
+
+    fn next_matching_at_or_after(
+        &self,
+        mut candidate: NaiveDateTime,
+        deadline: NaiveDateTime,
+    ) -> Option<NaiveDateTime> {
+        while candidate <= deadline {
+            if !self.month.matches(candidate.month()) {
+                candidate = self.next_month_start(candidate)?;
+                continue;
+            }
+            if !self.day_of_month.matches(candidate) || !self.day_of_week.matches(candidate) {
+                candidate = candidate.date().succ_opt()?.and_hms_opt(0, 0, 0)?;
+                continue;
+            }
+            if !self.hour.matches(candidate.hour()) {
+                candidate = match self.hour.next_at_or_after(candidate.hour()) {
+                    Some(hour) => candidate.date().and_hms_opt(hour, 0, 0)?,
+                    None => candidate.date().succ_opt()?.and_hms_opt(0, 0, 0)?,
+                };
+                continue;
+            }
+            if !self.minute.matches(candidate.minute()) {
+                candidate = match self.minute.next_at_or_after(candidate.minute()) {
+                    Some(minute) => candidate.date().and_hms_opt(candidate.hour(), minute, 0)?,
+                    None => candidate
+                        .date()
+                        .and_hms_opt(candidate.hour(), 0, 0)?
+                        .checked_add_signed(Duration::hours(1))?,
+                };
+                continue;
+            }
+            if !self.second.matches(candidate.second()) {
+                candidate = match self.second.next_at_or_after(candidate.second()) {
+                    Some(second) => candidate.date().and_hms_opt(
+                        candidate.hour(),
+                        candidate.minute(),
+                        second,
+                    )?,
+                    None => candidate
+                        .date()
+                        .and_hms_opt(candidate.hour(), candidate.minute(), 0)?
+                        .checked_add_signed(Duration::minutes(1))?,
+                };
+                continue;
+            }
+            debug_assert!(self.matches(candidate));
+            return Some(candidate);
+        }
+        None
+    }
+
+    fn next_month_start(&self, candidate: NaiveDateTime) -> Option<NaiveDateTime> {
+        let mut year = candidate.year();
+        let mut month = candidate.month();
+        for _ in 0..12 {
+            if month == 12 {
+                year = year.checked_add(1)?;
+                month = 1;
+            } else {
+                month += 1;
+            }
+            if self.month.matches(month) {
+                return NaiveDate::from_ymd_opt(year, month, 1)?.and_hms_opt(0, 0, 0);
+            }
+        }
+        None
     }
 
     fn matches(&self, at: NaiveDateTime) -> bool {
@@ -446,13 +541,6 @@ impl Schedule {
             Duration::minutes(1)
         }
     }
-    fn search_limit(&self) -> i64 {
-        if self.has_seconds {
-            SEARCH_LIMIT_MINUTES * 60
-        } else {
-            SEARCH_LIMIT_MINUTES
-        }
-    }
     fn truncate(&self, value: NaiveDateTime) -> NaiveDateTime {
         if self.has_seconds {
             value - Duration::nanoseconds(value.nanosecond() as i64)
@@ -462,6 +550,34 @@ impl Schedule {
                 - Duration::nanoseconds(value.nanosecond() as i64)
         }
     }
+}
+
+fn is_ambiguous(timezone: Tz, local: NaiveDateTime) -> bool {
+    matches!(
+        timezone.from_local_datetime(&local),
+        LocalResult::Ambiguous(_, _)
+    )
+}
+
+fn ambiguity_window(
+    timezone: Tz,
+    local: NaiveDateTime,
+    increment: Duration,
+) -> Result<(NaiveDateTime, NaiveDateTime), CronError> {
+    let mut start = local;
+    while let Some(previous) = start.checked_sub_signed(increment) {
+        if !is_ambiguous(timezone, previous) {
+            break;
+        }
+        start = previous;
+    }
+    let mut end = local;
+    while is_ambiguous(timezone, end) {
+        end = end
+            .checked_add_signed(increment)
+            .ok_or(CronError::NoOccurrenceWithinSearchLimit)?;
+    }
+    Ok((start, end))
 }
 
 fn resolve_local(timezone: Tz, local: NaiveDateTime, policy: DstPolicy) -> Vec<DateTime<Utc>> {

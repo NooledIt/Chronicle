@@ -1,4 +1,4 @@
-intent: Create task: Optimize sparse cron occurrence search
-knot_id: 646251ec520642cbd864c3be6c11253f8a9a1f5c40c32810e6451ca8bb2f9ef5
-solidified_at: 1785373276793
-thread: 
+intent: Replace linear occurrence scanning with calendar-field jumps and correct repeated-hour real-instant ordering
+knot_id: 38ea6a470742577f48a96f38bf93dd395969276b8f2be10d466bfe9c518eaf18
+solidified_at: 1785373649914
+thread: main
